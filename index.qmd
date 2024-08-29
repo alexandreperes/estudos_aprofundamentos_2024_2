@@ -5,12 +5,114 @@ author:
   - name: "Prof. Alexandre Peres"
     email: "alexandre.peres@ufms.br"
     affiliation: "Programa de Pós-Graduação em Psicologia - Universidade Federal de Mato Grosso do Sul (UFMS)"
-format: html
+format: 
+  html:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    self_contained: false
+    theme: united
+    highlight: Flatly
 editor: visual
 ---
 
+# Como utilizar este documento
+
+Este documento serve como um portfólio que registra as atividades realizadas em sala de aula na disciplina Estudos e Aprofundamentos II, ofertada no segundo semestre de 2024. Alunos da disciplina podem utilizá-lo como um guia para elaborar seus próprios portfólios, além de acessar recursos úteis para o desenvolvimento de habilidades no R.
+
+O documento está estruturado em formato de blog, organizado cronologicamente de forma decrescente. Cada entrada de data inclui subtítulos que identificam as atividades realizadas naquele dia. Para facilitar a navegação, utilize o menu disponível. O professor redigiu os registros em primeira pessoa, simulando a perspectiva de um estudante da disciplina que está documentando suas experiências em um diário. Este documento será atualizado semanalmente pelo professor.
+
+------------------------------------------------------------------------
+
 # 29 de agosto de 2024
+
+O R possui diversos pacotes. Cada pacote permite realizar um tipo de análise de dados. Por exemplo, vamos abrir um arquivo do Excel. Vamos ver como fazer a seguir.
+
+Na pasta `dados` eu criei um Excel chamado `exemplo.xlsx`. Para abrir um arquivo Excel no R usamos um pacote chamado `readxl.`
+
+## Instalando um pacote
+
+Para instalar um pacote do R, usamos um código como a seguir:
+
+```{r eval=FALSE}
+install.packages("readxl")
+```
+
+Eu não preciso instalar um pacote todas as vezes que eu for usar o R. Eu só preciso instalar um pacote nas seguintes situações:
+
+-   quando eu instalar ou reinstalar o R ou
+
+-   quando eu quiser atualizar um pacote.
+
+## Carregando um pacote 
+
+Sempre que eu abrir o R, eu preciso carregar os pacotes que eu for usar nas análises. Para carregar um pacote, uso devo usar um código como a seguir:
+
+```{r warning=FALSE}
+library(readxl)
+```
+
+## Abrindo um banco de dados
+
+Para abrir um banco de dados, eu posso usar o botão `Import Dataset` no RStudio. Mas, é mais estratégico escrever um código para fazer isso.
+
+```{r}
+
+# carregaro pacote:
+library(readxl)
+
+# abrir o banco de dados:
+## exemplo é o nome do objeto que será criado no R
+## read_excel() é a função do pacote readxl
+## path é o caminho do meu arquivo no meu computador
+exemplo <- read_excel(path = "dados/exemplo.xlsx")
+
+```
+
+Uma forma alternativa para carregar os pacotes é a seguinte:
+
+```{r}
+exemplo <- readxl::read_excel(path = "dados/exemplo.xlsx")
+```
+
+------------------------------------------------------------------------
 
 # 22 de agosto de 2024
 
-Hoje eu aprendi...
+## Organizando meus arquivos
+
+Na aula de hoje, criamos uma pasta no meu computador chamada `Estudos e Aprofundamentos II` (confira o nome da pasta no seu computador). Dentro dessa pasta, organizei uma subpasta chamada `dados` (confira o nome da pasta no seu computador), onde salvarei todos os bancos de dados que utilizaremos ao longo das aulas.
+
+## Instalando o R e o Rstudio
+
+Na sequência, fiz o *download* e instalei os seguintes *softwares*:
+
+-   ![](images/clipboard-2522369385.png){width="50"}: <https://cran.r-project.org/>
+
+-   ![](images/clipboard-1101431117.png){width="111"}: <https://posit.co/download/rstudio-desktop/>
+
+O R é uma linguagem de programação voltada à análise de dados. O RStudio é uma interface um pouco mais amigável para usar o R. No R, nós precisamos usar códigos para poder realizar uma tarefa. Ou seja, no R não usamos o mouse para realizar as tarefas.
+
+Após instalar o R e o RStudio, eu configurei a aparência do meu RStudio para deixar mais com a minha cara. Para fazer isso, fui no menu superior, escolhi a opção `Tools`, depois a opção `Global Options` e então explorei a seção `Appearance`.
+
+![](images/clipboard-2176492194.png)
+
+## Criando um projeto
+
+Além disso, criei um projeto no `R,` chamado `Estudos e Aprofundamentos II.Rproj`, dentro dessa mesma pasta. Também iniciei meu portfólio em um arquivo no formato `*.qmd`, que nomeei como `index.qmd`.
+
+Durante todo o semestre, o arquivo `index.qmd` será editado e atualizado conforme avançamos nas aulas. Esta é a principal atividade avaliativa da disciplina.
+
+## Gerando um HTML
+
+Ao final de cada aula, posso gerar uma página `HTML` do meu portfólio clicando no botão `Render` no RStudio.
+
+![](images/clipboard-671439482.png)
+
+## Tutoriais em vídeo
+
+-   Psicometria Online: [Como Instalar o R e o RStudio](https://www.youtube.com/watch?v=a4_0pKVY6RE)
+
+-   Epidemio Fora da Curva: [Como criar um projeto no RStudio](https://youtu.be/ts4jLbY6zUc)
+
+-   Curso-R: [Aprendendo a usar o quarto](https://www.youtube.com/watch?v=cpbmQRsIutc)

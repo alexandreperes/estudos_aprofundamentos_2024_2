@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -38,10 +72,32 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#como-utilizar-este-documento" id="toc-como-utilizar-este-documento" class="nav-link active" data-scroll-target="#como-utilizar-este-documento">Como utilizar este documento</a></li>
+  <li><a href="#de-agosto-de-2024" id="toc-de-agosto-de-2024" class="nav-link" data-scroll-target="#de-agosto-de-2024">29 de agosto de 2024</a>
+  <ul class="collapse">
+  <li><a href="#instalando-um-pacote" id="toc-instalando-um-pacote" class="nav-link" data-scroll-target="#instalando-um-pacote">Instalando um pacote</a></li>
+  <li><a href="#carregando-um-pacote" id="toc-carregando-um-pacote" class="nav-link" data-scroll-target="#carregando-um-pacote">Carregando um pacote</a></li>
+  <li><a href="#abrindo-um-banco-de-dados" id="toc-abrindo-um-banco-de-dados" class="nav-link" data-scroll-target="#abrindo-um-banco-de-dados">Abrindo um banco de dados</a></li>
+  </ul></li>
+  <li><a href="#de-agosto-de-2024-1" id="toc-de-agosto-de-2024-1" class="nav-link" data-scroll-target="#de-agosto-de-2024-1">22 de agosto de 2024</a>
+  <ul class="collapse">
+  <li><a href="#organizando-meus-arquivos" id="toc-organizando-meus-arquivos" class="nav-link" data-scroll-target="#organizando-meus-arquivos">Organizando meus arquivos</a></li>
+  <li><a href="#instalando-o-r-e-o-rstudio" id="toc-instalando-o-r-e-o-rstudio" class="nav-link" data-scroll-target="#instalando-o-r-e-o-rstudio">Instalando o R e o Rstudio</a></li>
+  <li><a href="#criando-um-projeto" id="toc-criando-um-projeto" class="nav-link" data-scroll-target="#criando-um-projeto">Criando um projeto</a></li>
+  <li><a href="#gerando-um-html" id="toc-gerando-um-html" class="nav-link" data-scroll-target="#gerando-um-html">Gerando um HTML</a></li>
+  <li><a href="#tutoriais-em-vídeo" id="toc-tutoriais-em-vídeo" class="nav-link" data-scroll-target="#tutoriais-em-vídeo">Tutoriais em vídeo</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -77,12 +133,90 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="como-utilizar-este-documento" class="level1">
+<h1>Como utilizar este documento</h1>
+<p>Este documento serve como um portfólio que registra as atividades realizadas em sala de aula na disciplina Estudos e Aprofundamentos II, ofertada no segundo semestre de 2024. Alunos da disciplina podem utilizá-lo como um guia para elaborar seus próprios portfólios, além de acessar recursos úteis para o desenvolvimento de habilidades no R.</p>
+<p>O documento está estruturado em formato de blog, organizado cronologicamente de forma decrescente. Cada entrada de data inclui subtítulos que identificam as atividades realizadas naquele dia. Para facilitar a navegação, utilize o menu disponível. O professor redigiu os registros em primeira pessoa, simulando a perspectiva de um estudante da disciplina que está documentando suas experiências em um diário. Este documento será atualizado semanalmente pelo professor.</p>
+<hr>
+</section>
 <section id="de-agosto-de-2024" class="level1">
 <h1>29 de agosto de 2024</h1>
+<p>O R possui diversos pacotes. Cada pacote permite realizar um tipo de análise de dados. Por exemplo, vamos abrir um arquivo do Excel. Vamos ver como fazer a seguir.</p>
+<p>Na pasta <code>dados</code> eu criei um Excel chamado <code>exemplo.xlsx</code>. Para abrir um arquivo Excel no R usamos um pacote chamado <code>readxl.</code></p>
+<section id="instalando-um-pacote" class="level2">
+<h2 class="anchored" data-anchor-id="instalando-um-pacote">Instalando um pacote</h2>
+<p>Para instalar um pacote do R, usamos um código como a seguir:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"readxl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Eu não preciso instalar um pacote todas as vezes que eu for usar o R. Eu só preciso instalar um pacote nas seguintes situações:</p>
+<ul>
+<li><p>quando eu instalar ou reinstalar o R ou</p></li>
+<li><p>quando eu quiser atualizar um pacote.</p></li>
+</ul>
+</section>
+<section id="carregando-um-pacote" class="level2">
+<h2 class="anchored" data-anchor-id="carregando-um-pacote">Carregando um pacote</h2>
+<p>Sempre que eu abrir o R, eu preciso carregar os pacotes que eu for usar nas análises. Para carregar um pacote, uso devo usar um código como a seguir:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="abrindo-um-banco-de-dados" class="level2">
+<h2 class="anchored" data-anchor-id="abrindo-um-banco-de-dados">Abrindo um banco de dados</h2>
+<p>Para abrir um banco de dados, eu posso usar o botão <code>Import Dataset</code> no RStudio. Mas, é mais estratégico escrever um código para fazer isso.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># carregaro pacote:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># abrir o banco de dados:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## exemplo é o nome do objeto que será criado no R</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## read_excel() é a função do pacote readxl</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">## path é o caminho do meu arquivo no meu computador</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>exemplo <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="at">path =</span> <span class="st">"dados/exemplo.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Uma forma alternativa para carregar os pacotes é a seguinte:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>exemplo <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="at">path =</span> <span class="st">"dados/exemplo.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
 </section>
 <section id="de-agosto-de-2024-1" class="level1">
 <h1>22 de agosto de 2024</h1>
-<p>Hoje eu aprendi…</p>
+<section id="organizando-meus-arquivos" class="level2">
+<h2 class="anchored" data-anchor-id="organizando-meus-arquivos">Organizando meus arquivos</h2>
+<p>Na aula de hoje, criamos uma pasta no meu computador chamada <code>Estudos e Aprofundamentos II</code> (confira o nome da pasta no seu computador). Dentro dessa pasta, organizei uma subpasta chamada <code>dados</code> (confira o nome da pasta no seu computador), onde salvarei todos os bancos de dados que utilizaremos ao longo das aulas.</p>
+</section>
+<section id="instalando-o-r-e-o-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="instalando-o-r-e-o-rstudio">Instalando o R e o Rstudio</h2>
+<p>Na sequência, fiz o <em>download</em> e instalei os seguintes <em>softwares</em>:</p>
+<ul>
+<li><p><img src="images/clipboard-2522369385.png" class="img-fluid" width="50">: <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a></p></li>
+<li><p><img src="images/clipboard-1101431117.png" class="img-fluid" width="111">: <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a></p></li>
+</ul>
+<p>O R é uma linguagem de programação voltada à análise de dados. O RStudio é uma interface um pouco mais amigável para usar o R. No R, nós precisamos usar códigos para poder realizar uma tarefa. Ou seja, no R não usamos o mouse para realizar as tarefas.</p>
+<p>Após instalar o R e o RStudio, eu configurei a aparência do meu RStudio para deixar mais com a minha cara. Para fazer isso, fui no menu superior, escolhi a opção <code>Tools</code>, depois a opção <code>Global Options</code> e então explorei a seção <code>Appearance</code>.</p>
+<p><img src="images/clipboard-2176492194.png" class="img-fluid"></p>
+</section>
+<section id="criando-um-projeto" class="level2">
+<h2 class="anchored" data-anchor-id="criando-um-projeto">Criando um projeto</h2>
+<p>Além disso, criei um projeto no <code>R,</code> chamado <code>Estudos e Aprofundamentos II.Rproj</code>, dentro dessa mesma pasta. Também iniciei meu portfólio em um arquivo no formato <code>*.qmd</code>, que nomeei como <code>index.qmd</code>.</p>
+<p>Durante todo o semestre, o arquivo <code>index.qmd</code> será editado e atualizado conforme avançamos nas aulas. Esta é a principal atividade avaliativa da disciplina.</p>
+</section>
+<section id="gerando-um-html" class="level2">
+<h2 class="anchored" data-anchor-id="gerando-um-html">Gerando um HTML</h2>
+<p>Ao final de cada aula, posso gerar uma página <code>HTML</code> do meu portfólio clicando no botão <code>Render</code> no RStudio.</p>
+<p><img src="images/clipboard-671439482.png" class="img-fluid"></p>
+</section>
+<section id="tutoriais-em-vídeo" class="level2">
+<h2 class="anchored" data-anchor-id="tutoriais-em-vídeo">Tutoriais em vídeo</h2>
+<ul>
+<li><p>Psicometria Online: <a href="https://www.youtube.com/watch?v=a4_0pKVY6RE">Como Instalar o R e o RStudio</a></p></li>
+<li><p>Epidemio Fora da Curva: <a href="https://youtu.be/ts4jLbY6zUc">Como criar um projeto no RStudio</a></p></li>
+<li><p>Curso-R: <a href="https://www.youtube.com/watch?v=cpbmQRsIutc">Aprendendo a usar o quarto</a></p></li>
+</ul>
+</section>
 </section>
 
 </main>
