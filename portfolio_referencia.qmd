@@ -1,0 +1,16 @@
+---
+title: "Estudos e Aprofundamentos II - 2024.2"
+subtitle: "Portfólio de Atividades Realizadas em Aula"
+author: 
+  - name: "Prof. Alexandre Peres"
+    email: "alexandre.peres@ufms.br"
+    affiliation: "Programa de Pós-Graduação em Psicologia - Universidade Federal de Mato Grosso do Sul (UFMS)"
+format: html
+editor: visual
+---
+
+# 29 de agosto de 2024
+
+# 22 de agosto de 2024
+
+Hoje eu aprendi...
