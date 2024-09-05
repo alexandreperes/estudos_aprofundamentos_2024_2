@@ -3,8 +3,9 @@ title: "Estudos e Aprofundamentos II - 2024.2"
 subtitle: "Portfólio de Atividades Realizadas em Aula"
 author: 
   - name: "Prof. Alexandre Peres"
-    email: "alexandre.peres@ufms.br"
-    affiliation: "Programa de Pós-Graduação em Psicologia - Universidade Federal de Mato Grosso do Sul (UFMS)"
+    affiliation: 
+      Universidade Federal de Mato Grosso do Sul (UFMS)
+      Programa de Pós-Graduação em Psicologia
 format: 
   html:
     toc: true
@@ -23,6 +24,350 @@ Este documento serve como um portfólio que registra as atividades realizadas em
 O documento está estruturado em formato de blog, organizado cronologicamente de forma decrescente. Cada entrada de data inclui subtítulos que identificam as atividades realizadas naquele dia. Para facilitar a navegação, utilize o menu disponível. O professor redigiu os registros em primeira pessoa, simulando a perspectiva de um estudante da disciplina que está documentando suas experiências em um diário. Este documento será atualizado semanalmente pelo professor.
 
 ------------------------------------------------------------------------
+
+# 05 de setembro
+
+Nessa aula, vamos explorar o conceito de objetos e tipos de dados no `R`, que são fundamentais para trabalhar com esta linguagem. No `R`, tudo é um objeto, desde números simples até estruturas complexas como data frames. Vamos entender como criar e manipular esses objetos, e também discutir os principais tipos de dados, como numéricos, caracteres, lógicos e fatores. Compreender esses conceitos permitirá que você armazene e manipule dados em seus projetos de pesquisa.
+
+## Objetos
+
+No R, um objeto é qualquer entidade que pode armazenar dados. Todos os dados em R são armazenados em objetos, que podem variar de tipos simples, como números (numéricos), texto (caracteres) e valores lógicos (por exemplo, TRUE ou FALSE), até estruturas mais complexas, como vetores, listas, matrizes, data frames e funções. Objetos podem ser criados atribuindo valores a eles com o operador `<-`, e uma vez criados, podem ser manipulados ou chamados para as análises de dados.
+
+### Nomeando objetos
+
+Ao nomear um objeto no R, existem algumas regras básicas:
+
+1.  **Iniciar com letra ou ponto**: O nome deve começar com uma letra (maiúscula ou minúscula) ou um ponto, mas não com um número.
+
+2.  **Não usar palavras reservadas**: Certas palavras, como `if`, `else`, `TRUE`, e `FALSE`, são reservadas e não podem ser usadas como nomes de objetos.
+
+3.  **Sensível a maiúsculas/minúsculas**: `nome` e `Nome` são considerados objetos diferentes.
+
+4.  **Evitar espaços**: Use underscores (`_`) ou pontos (`.`) para separar palavras.
+
+Exemplo: `minha_variavel`, `meu.objeto` são válidos.
+
+```{r}
+# como nomear objetos:
+exemplo.de.nome <- "exemplo"
+exemplo_de_nome <- "exemplo"
+exemploNome <- "exemplo"
+nomeExemplo <- "exemplo"
+
+```
+
+```{r eval=FALSE}
+#como NÃO nomear objetos:
+99nome <- "valor"
+TRUE <- "valor"
+if <- "valor"
+```
+
+Aqui estão algumas dicas para nomear objetos no R de forma eficiente e clara:
+
+1.  **Seja descritivo, mas conciso**: use nomes que indiquem a função ou conteúdo do objeto, como `dados_analise` ou `media_vendas`.
+
+2.  **Use underscores ou camelCase**: Separe palavras com underscores (`dados_vendas`) ou use camelCase (`dadosVendas`), facilitando a leitura.
+
+3.  **Evite nomes muito longos**: Prefira `media_grupo` em vez de `media_grupo_ano_mes_analise`.
+
+4.  **Use siglas ou abreviações comuns**: Se for algo repetido, como "dados", pode usar `df` para data frame, por exemplo, `df_vendas`.
+
+### Objetos e tipos de dados
+
+#### Numéricos
+
+Armazena números, podendo ser inteiros ou decimais. No caso de decimais, o R usa como separador o `"."`, não a `","`.
+
+```{r}
+
+# Criando um objeto numérico:
+numero.um <- 1
+numero.dois <- 2
+numero_inteiro <- 543
+decimais <- 0.5
+
+# Verificando o quê tem dentro do objeto:
+numero.um
+numero.dois
+numero_inteiro
+decimais
+
+# Verificando o tipo (classe) de dados de um objeto:
+class(numero.um)
+class(numero.dois)
+class(numero_inteiro)
+class(decimais)
+
+```
+
+#### Caracteres
+
+Sequências de texto (*strings*).
+
+```{r}
+
+# Criando um objeto numérico:
+meu.texto <- "texto vem aqui entre aspas"
+meuNome <- "alexandre"
+outro_texto <- "outro texto"
+titulo <- "texto"
+
+
+# Verificando o quê tem dentro do objeto:
+meu.texto
+meuNome
+outro_texto
+titulo
+
+# Verificando o tipo de dado de um objeto:
+class(meu.texto)
+class(meuNome)
+class(outro_texto)
+class(titulo)
+```
+
+#### Lógicos
+
+Valores booleanos em R, também conhecidos como **valores lógicos**, representam uma condição de verdadeiro ou falso. Existem dois valores booleanos em R:
+
+-   **TRUE**: Verdadeiro.
+
+-   **FALSE**: Falso.
+
+```{r}
+
+x <- 5
+y <- 10
+
+# Comparação que retorna um valor booleano
+x == y  #FALSE
+x < y #TRUE
+y > x #FALSE
+```
+
+#### Fator
+
+Representa variáveis categóricas com níveis. Exemplo: `sexo` com níveis `"masculino"` e `"feminino"`.
+
+```{r}
+# Criando um vetor com categorias
+sexo <- c("masculino", "feminino", "feminino", "masculino")
+
+# Convertendo para fator
+fator_sexo <- factor(sexo)
+
+# Verificando os níveis
+levels(fator_sexo)
+
+```
+
+#### Vetor
+
+Vetores são sequências de elementos do mesmo tipo. Eles podem conter números, caracteres, ou valores lógicos.
+
+```{r}
+
+# Criando vetores numéricos, de caracteres e lógicos
+vetor_numerico <- c(1, 2, 3, 4, 5)
+vetor_caractere <- c("a", "b", "c")
+vetor_logico <- c(TRUE, FALSE, TRUE)
+
+# Exibindo os vetores
+vetor_numerico
+vetor_caractere
+vetor_logico
+
+# Verificando o tipo de cada vetor
+class(vetor_numerico)
+class(vetor_caractere)
+class(vetor_logico)
+
+```
+
+#### Matriz
+
+Matrizes são tabelas de duas dimensões com elementos do mesmo tipo.
+
+```{r}
+# Criando uma matriz
+matriz_exemplo <- matrix(1:9, nrow = 3, ncol = 3)
+
+# Exibindo a matriz
+matriz_exemplo
+
+# Verificando a classe
+class(matriz_exemplo)
+
+```
+
+#### Data Frame
+
+Os data frames são tabelas com diferentes tipos de dados (numéricos, caracteres, etc.) organizados em colunas. Cada coluna pode ter um tipo de dado diferente.
+
+Criando um data frame:
+
+```{r}
+
+df <-
+  data.frame(
+  nome = c("Alice", "Bob", "Carol"),
+  idade = c(25, 30, 22),
+  sexo = factor(c("feminino", "masculino", "feminino"))
+)
+
+```
+
+Exibindo o data frame:
+
+```{r}
+
+df
+```
+
+Verificando a estrutura do data frame:
+
+```{r}
+str(df)
+```
+
+Inspecionando apenas as primeiras linhas do data frame:
+
+```{r}
+head(df)
+```
+
+Verificando os nomes das colunas do data frame:
+
+```{r}
+names(df)
+```
+
+#### Listas
+
+As listas podem armazenar diferentes tipos de dados, como vetores, data frames, e até outras listas.
+
+Criando uma lista:
+
+```{r}
+minha_lista <- list(nome = "Alexandre",
+                    numeros = c(1, 2, 3),
+                    matriz = matriz_exemplo)
+```
+
+Exibindo a minha lista:
+
+```{r}
+minha_lista
+```
+
+Acessando elementos da minha lista, usando o `$`:
+
+```{r}
+# Acessando elementos da lista
+minha_lista$nome
+minha_lista$numeros
+minha_lista$matriz
+
+```
+
+#### Faça você mesmo: explorando data frames
+
+O objetivo é coletar dados diretamente de seus colegas de classe para criar e manipular um **data frame** no R. Passos:
+
+1.  **Coleta de Dados**:
+
+    -   Entreviste 5 colegas, coletando informações básicas:
+
+        -   Nome
+
+        -   Idade
+
+        -   Gênero (masculino/feminino/outros)
+
+        -   Nível de amor pelo R (escala de 0 a 5)
+
+        -   Expectativas em relação a se tornar um especialista em psicometria (escala de 0 a 5)
+
+2.  Crie um vetor para cada variável
+
+```{r}
+# exemplo
+nomes <- c("Spearman", "Revelle", "Pasquali", "Pearson", "Cattell")
+idades <- c(24, 50, 34, 78, 50)
+anos_de_estudo <- c(18, 45, 30, 72, 45)
+
+#continue para gênero, nível de amor e expectativas...
+```
+
+3.  Crie um data frame juntando as diferentes colunas
+
+```{r}
+
+#exemplo
+df <- data.frame(nomes, idades, anos_de_estudo) #continue com as demais variáveis
+
+#você pode elaborar o df diretamente, sem fazer os vetores antes:
+df <- data.frame(
+  nomes = c("Spearman", "Revelle", "Pasquali", "Pearson", "Cattell"),
+  idades = c(24, 50, 34, 78, 50),
+  anos_de_estudo = c(18, 45, 30, 72, 45)) #continue com as demais variáveis
+
+print(df)
+
+```
+
+4.  Calcule as médias de idade, nível de amor e expectativas usando a função `mean()`
+
+```{r}
+#exemplo
+media_idade <- mean(df$idades)
+print(media_idade)
+```
+
+5.  Conte a frequência de cada valor de nível de amor e de expectativa
+
+```{r}
+#exemplo
+tabela_idade <- table(df$idades)
+tabela_idade
+```
+
+5.  Faça um gráfico de barras azuis para nível de amor e outro para expectativa
+
+```{r}
+#exemplo
+barplot(height = tabela_idade, #table() conta a frequência de um valor
+        main = "Gráfico de barras das idades do grupo", #título do gráfico
+        col = "pink", #cor das barras
+        xlab = "Idades em anos", #título do eixo x
+        ylab = "Alunos (n)", #título do eixo y
+        ) 
+
+
+barplot(height = table(df$anos_de_estudo), #table() conta a frequência de um valor
+        main = "Gráfico de barras dos anos de estudo do grupo", #título do gráfico
+        col = "green", #cor das barras
+        xlab = "Anos de estudo", #título do eixo x
+        ylab = "Alunos (n)", #título do eixo y
+        ) 
+
+```
+
+6.  Faça um diagrama de dispersão entre nível de amor e expectativa
+
+```{r}
+#exemplo
+plot(x = df$idades, #variável 1
+     y = df$anos_de_estudo, #variável 2
+     xlab = "Idade", #título do eixo x
+     ylab = "Anos de Estudo", #título do eixo y
+     col="red",#cor dos símbolos
+     pch = 20, #formato dos símbolos 
+     cex = 3) #tamanho dos símbolos
+```
+
+7.  Interprete a relação entre nível de amor pelo R e o nível de expectativa por ser um especialista em psicometria.
 
 # 29 de agosto de 2024
 
@@ -44,7 +389,7 @@ Eu não preciso instalar um pacote todas as vezes que eu for usar o R. Eu só pr
 
 -   quando eu quiser atualizar um pacote.
 
-## Carregando um pacote 
+## Carregando um pacote
 
 Sempre que eu abrir o R, eu preciso carregar os pacotes que eu for usar nas análises. Para carregar um pacote, uso devo usar um código como a seguir:
 
@@ -58,7 +403,7 @@ Para abrir um banco de dados, eu posso usar o botão `Import Dataset` no RStudio
 
 ```{r}
 
-# carregaro pacote:
+# carregar o pacote:
 library(readxl)
 
 # abrir o banco de dados:
@@ -73,6 +418,7 @@ Uma forma alternativa para carregar os pacotes é a seguinte:
 
 ```{r}
 exemplo <- readxl::read_excel(path = "dados/exemplo.xlsx")
+exemplo
 ```
 
 ------------------------------------------------------------------------
@@ -116,3 +462,17 @@ Ao final de cada aula, posso gerar uma página `HTML` do meu portfólio clicando
 -   Epidemio Fora da Curva: [Como criar um projeto no RStudio](https://youtu.be/ts4jLbY6zUc)
 
 -   Curso-R: [Aprendendo a usar o quarto](https://www.youtube.com/watch?v=cpbmQRsIutc)
+
+------------------------------------------------------------------------
+
+# Alexandre Peres
+
+![](images/Alexandre%20Peres.png){fig-align="left"}
+
+**Alexandre Peres** é professor da Universidade Federal do Mato Grosso do Sul (UFMS), no Programa de Pós-Graduação em Psicologia na Faculdade de Ciências Humanas (FACH), em Campo Grande, desde 2018. Coordena o Laboratório de Psicometria, Avaliação Psicológica e Educacional (LabPAPE). Possui mestrado e doutorado em Psicologia Social, do Trabalho e das Organizações pela Universidade de Brasília (UnB). Foi pesquisador do Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP, entre 2008 e 2018. Seus interesses de pesquisa em psicologia estão relacionados especialmente à psicologia da personalidade e à psicometria. Interessa-se também por testagem educacional em larga-escala e por avaliação de programas e políticas educacionais.
+
+**alexandre.peres\@ufms.br**
+
+![](images/clipboard-316312062.png){fig-align="center"}
+
+![](images/ufms_logo_negativo_assinatura_vertical_pb_rgb-01.png){fig-align="center" width="533"}

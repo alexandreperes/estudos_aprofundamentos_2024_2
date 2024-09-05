@@ -81,6 +81,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#como-utilizar-este-documento" id="toc-como-utilizar-este-documento" class="nav-link active" data-scroll-target="#como-utilizar-este-documento">Como utilizar este documento</a></li>
+  <li><a href="#de-setembro" id="toc-de-setembro" class="nav-link" data-scroll-target="#de-setembro">05 de setembro</a>
+  <ul class="collapse">
+  <li><a href="#objetos" id="toc-objetos" class="nav-link" data-scroll-target="#objetos">Objetos</a>
+  <ul class="collapse">
+  <li><a href="#nomeando-objetos" id="toc-nomeando-objetos" class="nav-link" data-scroll-target="#nomeando-objetos">Nomeando objetos</a></li>
+  <li><a href="#objetos-e-tipos-de-dados" id="toc-objetos-e-tipos-de-dados" class="nav-link" data-scroll-target="#objetos-e-tipos-de-dados">Objetos e tipos de dados</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#de-agosto-de-2024" id="toc-de-agosto-de-2024" class="nav-link" data-scroll-target="#de-agosto-de-2024">29 de agosto de 2024</a>
   <ul class="collapse">
   <li><a href="#instalando-um-pacote" id="toc-instalando-um-pacote" class="nav-link" data-scroll-target="#instalando-um-pacote">Instalando um pacote</a></li>
@@ -95,6 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#gerando-um-html" id="toc-gerando-um-html" class="nav-link" data-scroll-target="#gerando-um-html">Gerando um HTML</a></li>
   <li><a href="#tutoriais-em-vídeo" id="toc-tutoriais-em-vídeo" class="nav-link" data-scroll-target="#tutoriais-em-vídeo">Tutoriais em vídeo</a></li>
   </ul></li>
+  <li><a href="#alexandre-peres" id="toc-alexandre-peres" class="nav-link" data-scroll-target="#alexandre-peres">Alexandre Peres</a></li>
   </ul>
 </nav>
 </div>
@@ -112,11 +121,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-meta-heading">Affiliation</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Prof.&nbsp;Alexandre Peres <a href="mailto:alexandre.peres@ufms.br" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+    <p class="author">Prof.&nbsp;Alexandre Peres </p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            Programa de Pós-Graduação em Psicologia - Universidade Federal de Mato Grosso do Sul (UFMS)
+            Universidade Federal de Mato Grosso do Sul (UFMS) Programa de Pós-Graduação em Psicologia
           </p>
       </div>
   </div>
@@ -139,6 +148,467 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>O documento está estruturado em formato de blog, organizado cronologicamente de forma decrescente. Cada entrada de data inclui subtítulos que identificam as atividades realizadas naquele dia. Para facilitar a navegação, utilize o menu disponível. O professor redigiu os registros em primeira pessoa, simulando a perspectiva de um estudante da disciplina que está documentando suas experiências em um diário. Este documento será atualizado semanalmente pelo professor.</p>
 <hr>
 </section>
+<section id="de-setembro" class="level1">
+<h1>05 de setembro</h1>
+<p>Nessa aula, vamos explorar o conceito de objetos e tipos de dados no <code>R</code>, que são fundamentais para trabalhar com esta linguagem. No <code>R</code>, tudo é um objeto, desde números simples até estruturas complexas como data frames. Vamos entender como criar e manipular esses objetos, e também discutir os principais tipos de dados, como numéricos, caracteres, lógicos e fatores. Compreender esses conceitos permitirá que você armazene e manipule dados em seus projetos de pesquisa.</p>
+<section id="objetos" class="level2">
+<h2 class="anchored" data-anchor-id="objetos">Objetos</h2>
+<p>No R, um objeto é qualquer entidade que pode armazenar dados. Todos os dados em R são armazenados em objetos, que podem variar de tipos simples, como números (numéricos), texto (caracteres) e valores lógicos (por exemplo, TRUE ou FALSE), até estruturas mais complexas, como vetores, listas, matrizes, data frames e funções. Objetos podem ser criados atribuindo valores a eles com o operador <code>&lt;-</code>, e uma vez criados, podem ser manipulados ou chamados para as análises de dados.</p>
+<section id="nomeando-objetos" class="level3">
+<h3 class="anchored" data-anchor-id="nomeando-objetos">Nomeando objetos</h3>
+<p>Ao nomear um objeto no R, existem algumas regras básicas:</p>
+<ol type="1">
+<li><p><strong>Iniciar com letra ou ponto</strong>: O nome deve começar com uma letra (maiúscula ou minúscula) ou um ponto, mas não com um número.</p></li>
+<li><p><strong>Não usar palavras reservadas</strong>: Certas palavras, como <code>if</code>, <code>else</code>, <code>TRUE</code>, e <code>FALSE</code>, são reservadas e não podem ser usadas como nomes de objetos.</p></li>
+<li><p><strong>Sensível a maiúsculas/minúsculas</strong>: <code>nome</code> e <code>Nome</code> são considerados objetos diferentes.</p></li>
+<li><p><strong>Evitar espaços</strong>: Use underscores (<code>_</code>) ou pontos (<code>.</code>) para separar palavras.</p></li>
+</ol>
+<p>Exemplo: <code>minha_variavel</code>, <code>meu.objeto</code> são válidos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># como nomear objetos:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>exemplo.de.nome <span class="ot">&lt;-</span> <span class="st">"exemplo"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>exemplo_de_nome <span class="ot">&lt;-</span> <span class="st">"exemplo"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>exemploNome <span class="ot">&lt;-</span> <span class="st">"exemplo"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nomeExemplo <span class="ot">&lt;-</span> <span class="st">"exemplo"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#como NÃO nomear objetos:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dv">99</span>nome <span class="ot">&lt;-</span> <span class="st">"valor"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span> <span class="ot">&lt;-</span> <span class="st">"valor"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="ot">&lt;-</span> <span class="st">"valor"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Aqui estão algumas dicas para nomear objetos no R de forma eficiente e clara:</p>
+<ol type="1">
+<li><p><strong>Seja descritivo, mas conciso</strong>: use nomes que indiquem a função ou conteúdo do objeto, como <code>dados_analise</code> ou <code>media_vendas</code>.</p></li>
+<li><p><strong>Use underscores ou camelCase</strong>: Separe palavras com underscores (<code>dados_vendas</code>) ou use camelCase (<code>dadosVendas</code>), facilitando a leitura.</p></li>
+<li><p><strong>Evite nomes muito longos</strong>: Prefira <code>media_grupo</code> em vez de <code>media_grupo_ano_mes_analise</code>.</p></li>
+<li><p><strong>Use siglas ou abreviações comuns</strong>: Se for algo repetido, como “dados”, pode usar <code>df</code> para data frame, por exemplo, <code>df_vendas</code>.</p></li>
+</ol>
+</section>
+<section id="objetos-e-tipos-de-dados" class="level3">
+<h3 class="anchored" data-anchor-id="objetos-e-tipos-de-dados">Objetos e tipos de dados</h3>
+<section id="numéricos" class="level4">
+<h4 class="anchored" data-anchor-id="numéricos">Numéricos</h4>
+<p>Armazena números, podendo ser inteiros ou decimais. No caso de decimais, o R usa como separador o <code>"."</code>, não a <code>","</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando um objeto numérico:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>numero.um <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>numero.dois <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>numero_inteiro <span class="ot">&lt;-</span> <span class="dv">543</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>decimais <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificando o quê tem dentro do objeto:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>numero.um</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>numero.dois</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>numero_inteiro</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 543</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>decimais</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificando o tipo (classe) de dados de um objeto:</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(numero.um)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(numero.dois)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(numero_inteiro)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(decimais)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+</section>
+<section id="caracteres" class="level4">
+<h4 class="anchored" data-anchor-id="caracteres">Caracteres</h4>
+<p>Sequências de texto (<em>strings</em>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando um objeto numérico:</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>meu.texto <span class="ot">&lt;-</span> <span class="st">"texto vem aqui entre aspas"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>meuNome <span class="ot">&lt;-</span> <span class="st">"alexandre"</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>outro_texto <span class="ot">&lt;-</span> <span class="st">"outro texto"</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>titulo <span class="ot">&lt;-</span> <span class="st">"texto"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificando o quê tem dentro do objeto:</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>meu.texto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "texto vem aqui entre aspas"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>meuNome</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "alexandre"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>outro_texto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "outro texto"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>titulo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "texto"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificando o tipo de dado de um objeto:</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(meu.texto)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(meuNome)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(outro_texto)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(titulo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+</section>
+<section id="lógicos" class="level4">
+<h4 class="anchored" data-anchor-id="lógicos">Lógicos</h4>
+<p>Valores booleanos em R, também conhecidos como <strong>valores lógicos</strong>, representam uma condição de verdadeiro ou falso. Existem dois valores booleanos em R:</p>
+<ul>
+<li><p><strong>TRUE</strong>: Verdadeiro.</p></li>
+<li><p><strong>FALSE</strong>: Falso.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparação que retorna um valor booleano</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>x <span class="sc">==</span> y  <span class="co">#FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&lt;</span> y <span class="co">#TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">&gt;</span> x <span class="co">#FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="fator" class="level4">
+<h4 class="anchored" data-anchor-id="fator">Fator</h4>
+<p>Representa variáveis categóricas com níveis. Exemplo: <code>sexo</code> com níveis <code>"masculino"</code> e <code>"feminino"</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando um vetor com categorias</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>sexo <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"masculino"</span>, <span class="st">"feminino"</span>, <span class="st">"feminino"</span>, <span class="st">"masculino"</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertendo para fator</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>fator_sexo <span class="ot">&lt;-</span> <span class="fu">factor</span>(sexo)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificando os níveis</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(fator_sexo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "feminino"  "masculino"</code></pre>
+</div>
+</div>
+</section>
+<section id="vetor" class="level4">
+<h4 class="anchored" data-anchor-id="vetor">Vetor</h4>
+<p>Vetores são sequências de elementos do mesmo tipo. Eles podem conter números, caracteres, ou valores lógicos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando vetores numéricos, de caracteres e lógicos</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>vetor_numerico <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>vetor_caractere <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>vetor_logico <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Exibindo os vetores</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>vetor_numerico</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>vetor_caractere</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a" "b" "c"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>vetor_logico</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  TRUE FALSE  TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificando o tipo de cada vetor</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vetor_numerico)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vetor_caractere)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vetor_logico)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "logical"</code></pre>
+</div>
+</div>
+</section>
+<section id="matriz" class="level4">
+<h4 class="anchored" data-anchor-id="matriz">Matriz</h4>
+<p>Matrizes são tabelas de duas dimensões com elementos do mesmo tipo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando uma matriz</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>matriz_exemplo <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exibindo a matriz</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>matriz_exemplo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificando a classe</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(matriz_exemplo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "matrix" "array" </code></pre>
+</div>
+</div>
+</section>
+<section id="data-frame" class="level4">
+<h4 class="anchored" data-anchor-id="data-frame">Data Frame</h4>
+<p>Os data frames são tabelas com diferentes tipos de dados (numéricos, caracteres, etc.) organizados em colunas. Cada coluna pode ter um tipo de dado diferente.</p>
+<p>Criando um data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nome =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Carol"</span>),</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">idade =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">22</span>),</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sexo =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"feminino"</span>, <span class="st">"masculino"</span>, <span class="st">"feminino"</span>))</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Exibindo o data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   nome idade      sexo
+1 Alice    25  feminino
+2   Bob    30 masculino
+3 Carol    22  feminino</code></pre>
+</div>
+</div>
+<p>Verificando a estrutura do data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   3 obs. of  3 variables:
+ $ nome : chr  "Alice" "Bob" "Carol"
+ $ idade: num  25 30 22
+ $ sexo : Factor w/ 2 levels "feminino","masculino": 1 2 1</code></pre>
+</div>
+</div>
+<p>Inspecionando apenas as primeiras linhas do data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   nome idade      sexo
+1 Alice    25  feminino
+2   Bob    30 masculino
+3 Carol    22  feminino</code></pre>
+</div>
+</div>
+<p>Verificando os nomes das colunas do data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "nome"  "idade" "sexo" </code></pre>
+</div>
+</div>
+</section>
+<section id="listas" class="level4">
+<h4 class="anchored" data-anchor-id="listas">Listas</h4>
+<p>As listas podem armazenar diferentes tipos de dados, como vetores, data frames, e até outras listas.</p>
+<p>Criando uma lista:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>minha_lista <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nome =</span> <span class="st">"Alexandre"</span>,</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">numeros =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">matriz =</span> matriz_exemplo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Exibindo a minha lista:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>minha_lista</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$nome
+[1] "Alexandre"
+
+$numeros
+[1] 1 2 3
+
+$matriz
+     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9</code></pre>
+</div>
+</div>
+<p>Acessando elementos da minha lista, usando o <code>$</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Acessando elementos da lista</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>minha_lista<span class="sc">$</span>nome</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Alexandre"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>minha_lista<span class="sc">$</span>numeros</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>minha_lista<span class="sc">$</span>matriz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9</code></pre>
+</div>
+</div>
+</section>
+<section id="faça-você-mesmo-explorando-data-frames" class="level4">
+<h4 class="anchored" data-anchor-id="faça-você-mesmo-explorando-data-frames">Faça você mesmo: explorando data frames</h4>
+<p>O objetivo é coletar dados diretamente de seus colegas de classe para criar e manipular um <strong>data frame</strong> no R. Passos:</p>
+<ol type="1">
+<li><p><strong>Coleta de Dados</strong>:</p>
+<ul>
+<li><p>Entreviste 5 colegas, coletando informações básicas:</p>
+<ul>
+<li><p>Nome</p></li>
+<li><p>Idade</p></li>
+<li><p>Gênero (masculino/feminino/outros)</p></li>
+<li><p>Nível de amor pelo R (escala de 0 a 5)</p></li>
+<li><p>Expectativas em relação a se tornar um especialista em psicometria (escala de 0 a 5)</p></li>
+</ul></li>
+</ul></li>
+<li><p>Crie um vetor para cada variável</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># exemplo</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>nomes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Spearman"</span>, <span class="st">"Revelle"</span>, <span class="st">"Pasquali"</span>, <span class="st">"Pearson"</span>, <span class="st">"Cattell"</span>)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>idades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">50</span>, <span class="dv">34</span>, <span class="dv">78</span>, <span class="dv">50</span>)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>anos_de_estudo <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">45</span>, <span class="dv">30</span>, <span class="dv">72</span>, <span class="dv">45</span>)</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a><span class="co">#continue para gênero, nível de amor e expectativas...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Crie um data frame juntando as diferentes colunas</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co">#exemplo</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(nomes, idades, anos_de_estudo) <span class="co">#continue com as demais variáveis</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co">#você pode elaborar o df diretamente, sem fazer os vetores antes:</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">nomes =</span> <span class="fu">c</span>(<span class="st">"Spearman"</span>, <span class="st">"Revelle"</span>, <span class="st">"Pasquali"</span>, <span class="st">"Pearson"</span>, <span class="st">"Cattell"</span>),</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">idades =</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">50</span>, <span class="dv">34</span>, <span class="dv">78</span>, <span class="dv">50</span>),</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">anos_de_estudo =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">45</span>, <span class="dv">30</span>, <span class="dv">72</span>, <span class="dv">45</span>)) <span class="co">#continue com as demais variáveis</span></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     nomes idades anos_de_estudo
+1 Spearman     24             18
+2  Revelle     50             45
+3 Pasquali     34             30
+4  Pearson     78             72
+5  Cattell     50             45</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>Calcule as médias de idade, nível de amor e expectativas usando a função <code>mean()</code></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#exemplo</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>media_idade <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>idades)</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(media_idade)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 47.2</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Conte a frequência de cada valor de nível de amor e de expectativa</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co">#exemplo</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>tabela_idade <span class="ot">&lt;-</span> <span class="fu">table</span>(df<span class="sc">$</span>idades)</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>tabela_idade</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+24 34 50 78 
+ 1  1  2  1 </code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Faça um gráfico de barras azuis para nível de amor e outro para expectativa</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co">#exemplo</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="at">height =</span> tabela_idade, <span class="co">#table() conta a frequência de um valor</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Gráfico de barras das idades do grupo"</span>, <span class="co">#título do gráfico</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"pink"</span>, <span class="co">#cor das barras</span></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Idades em anos"</span>, <span class="co">#título do eixo x</span></span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Alunos (n)"</span>, <span class="co">#título do eixo y</span></span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>        ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="at">height =</span> <span class="fu">table</span>(df<span class="sc">$</span>anos_de_estudo), <span class="co">#table() conta a frequência de um valor</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Gráfico de barras dos anos de estudo do grupo"</span>, <span class="co">#título do gráfico</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"green"</span>, <span class="co">#cor das barras</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Anos de estudo"</span>, <span class="co">#título do eixo x</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Alunos (n)"</span>, <span class="co">#título do eixo y</span></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>        ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="6" type="1">
+<li>Faça um diagrama de dispersão entre nível de amor e expectativa</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co">#exemplo</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> df<span class="sc">$</span>idades, <span class="co">#variável 1</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> df<span class="sc">$</span>anos_de_estudo, <span class="co">#variável 2</span></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Idade"</span>, <span class="co">#título do eixo x</span></span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Anos de Estudo"</span>, <span class="co">#título do eixo y</span></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="st">"red"</span>,<span class="co">#cor dos símbolos</span></span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">20</span>, <span class="co">#formato dos símbolos </span></span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="dv">3</span>) <span class="co">#tamanho dos símbolos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="7" type="1">
+<li>Interprete a relação entre nível de amor pelo R e o nível de expectativa por ser um especialista em psicometria.</li>
+</ol>
+</section>
+</section>
+</section>
+</section>
 <section id="de-agosto-de-2024" class="level1">
 <h1>29 de agosto de 2024</h1>
 <p>O R possui diversos pacotes. Cada pacote permite realizar um tipo de análise de dados. Por exemplo, vamos abrir um arquivo do Excel. Vamos ver como fazer a seguir.</p>
@@ -147,7 +617,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="instalando-um-pacote">Instalando um pacote</h2>
 <p>Para instalar um pacote do R, usamos um código como a seguir:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"readxl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"readxl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Eu não preciso instalar um pacote todas as vezes que eu for usar o R. Eu só preciso instalar um pacote nas seguintes situações:</p>
 <ul>
@@ -159,25 +629,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="carregando-um-pacote">Carregando um pacote</h2>
 <p>Sempre que eu abrir o R, eu preciso carregar os pacotes que eu for usar nas análises. Para carregar um pacote, uso devo usar um código como a seguir:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="abrindo-um-banco-de-dados" class="level2">
 <h2 class="anchored" data-anchor-id="abrindo-um-banco-de-dados">Abrindo um banco de dados</h2>
 <p>Para abrir um banco de dados, eu posso usar o botão <code>Import Dataset</code> no RStudio. Mas, é mais estratégico escrever um código para fazer isso.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># carregaro pacote:</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># abrir o banco de dados:</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## exemplo é o nome do objeto que será criado no R</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## read_excel() é a função do pacote readxl</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">## path é o caminho do meu arquivo no meu computador</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>exemplo <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="at">path =</span> <span class="st">"dados/exemplo.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># carregar o pacote:</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a><span class="co"># abrir o banco de dados:</span></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="do">## exemplo é o nome do objeto que será criado no R</span></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="do">## read_excel() é a função do pacote readxl</span></span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a><span class="do">## path é o caminho do meu arquivo no meu computador</span></span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>exemplo <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="at">path =</span> <span class="st">"dados/exemplo.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Uma forma alternativa para carregar os pacotes é a seguinte:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>exemplo <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="at">path =</span> <span class="st">"dados/exemplo.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>exemplo <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="at">path =</span> <span class="st">"dados/exemplo.xlsx"</span>)</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>exemplo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 19 × 5
+   adfasdf fafdasf    ga sdfasdf vadsf
+     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+ 1      54      67    44      98    55
+ 2      61      71    12      18    26
+ 3      82      23    55      40    25
+ 4      88      19    93      60    71
+ 5      14      26     2      37    38
+ 6      13      45    79      78    45
+ 7      10      36    54      18    45
+ 8      67      66    75      85    17
+ 9      74      31    42      45    75
+10      33      97    16      98     8
+11      75      82    75      93    58
+12      49      96    26      61    89
+13      62       6    44       9    58
+14      10       3    72      25    95
+15      18      23    78      60    44
+16      16      75    42      42    26
+17      98      71    71      33    85
+18      66       6    18      88    22
+19      24      44    46      18    96</code></pre>
+</div>
 </div>
 <hr>
 </section>
@@ -216,7 +711,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Epidemio Fora da Curva: <a href="https://youtu.be/ts4jLbY6zUc">Como criar um projeto no RStudio</a></p></li>
 <li><p>Curso-R: <a href="https://www.youtube.com/watch?v=cpbmQRsIutc">Aprendendo a usar o quarto</a></p></li>
 </ul>
+<hr>
 </section>
+</section>
+<section id="alexandre-peres" class="level1">
+<h1>Alexandre Peres</h1>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="images/Alexandre%20Peres.png" class="img-fluid quarto-figure quarto-figure-left figure-img"></p>
+</figure>
+</div>
+<p><strong>Alexandre Peres</strong> é professor da Universidade Federal do Mato Grosso do Sul (UFMS), no Programa de Pós-Graduação em Psicologia na Faculdade de Ciências Humanas (FACH), em Campo Grande, desde 2018. Coordena o Laboratório de Psicometria, Avaliação Psicológica e Educacional (LabPAPE). Possui mestrado e doutorado em Psicologia Social, do Trabalho e das Organizações pela Universidade de Brasília (UnB). Foi pesquisador do Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP, entre 2008 e 2018. Seus interesses de pesquisa em psicologia estão relacionados especialmente à psicologia da personalidade e à psicometria. Interessa-se também por testagem educacional em larga-escala e por avaliação de programas e políticas educacionais.</p>
+<p><strong>alexandre.peres@ufms.br</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-316312062.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ufms_logo_negativo_assinatura_vertical_pb_rgb-01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="533"></p>
+</figure>
+</div>
 </section>
 
 </main>
