@@ -25,9 +25,246 @@ O documento está estruturado em formato de blog, organizado cronologicamente de
 
 ------------------------------------------------------------------------
 
-# 05 de setembro
+# 17 de outubro
 
-Nessa aula, vamos explorar o conceito de objetos e tipos de dados no `R`, que são fundamentais para trabalhar com esta linguagem. No `R`, tudo é um objeto, desde números simples até estruturas complexas como data frames. Vamos entender como criar e manipular esses objetos, e também discutir os principais tipos de dados, como numéricos, caracteres, lógicos e fatores. Compreender esses conceitos permitirá que você armazene e manipule dados em seus projetos de pesquisa.
+Na aula de hoje, faremos uma revisão do que estudamos até o momento. Você deverá seguir os seguintes passos e responder as seguintes perguntas.
+
+1.  Abra o banco de dados `Ten-Item Personality Inventory-(TIPI) (respostas).xlsx` no seu projeto no R. O banco está disponível em <https://docs.google.com/spreadsheets/d/1PI1oWW-PUHb9hRSlv9rAMyAsEmyqNRrL/edit?usp=sharing&ouid=118205451649792182527&rtpof=true&sd=true>
+
+2.  Qual a estrutura do objeto criado com o banco de dados? Garanta que ele esteja no formato de `data frame`.
+
+3.  Quais os nomes das variáveis no banco?
+
+4.  Para cada fator do Big Five, quais são os pares de itens?
+
+5.  Qual a média, a mediana e o desvio-padrão de cada variável?
+
+6.  Qual o total e o percentual de dados faltosos para cada variável?
+
+7.  Elabore um histograma para cada variável.
+
+8.  Há presença de outliers? Faça uma inspeção visual criando um boxplot para cada variável.
+
+9.  Quais as correlações entre todo os pares possíveis de variáveis (com exceção de `Carimbo de data/hora`)? Apresente a matriz de correlações, o mapa de calor e os paineis de pares de variáveis.
+
+10. Considerando a teoria do Big Five, avalie a qualidade do instrumento `Ten-Item Personality Inventory-(TIPI)`. Ele parece ser bom para avaliar os cinco fatores? As correlações entre as variáveis se comportaram conforme esperado teoricamente?
+
+11. Sobrou tempo? Aproveite para melhorar seu portfólio. Não deixe nenhuma atividade para trás, nenhuma análise sem explicação e nenhum código sem comentários.
+
+------------------------------------------------------------------------
+
+# 03 de outubro
+
+Nessa aula estudamos correlações, usando o banco de dados `bfi` disponível no pacote **`psych`**.
+
+## Carregando o psych
+
+O pacote psych já foi instalado em [26 de setembro].
+
+```{r}
+library(psych)
+```
+
+## Abrindo o banco `bfi` do pacote `psych`
+
+```{r}
+data(bfi)
+head(bfi)
+```
+
+## Correlações
+
+### Correlação entre duas variáveis
+
+```{r}
+
+cor(x = bfi$age, #variável 1: idade
+    y = bfi$education, #variável 2: escolaridade
+    use = "complete.obs", #usar apenas observações sem dados faltosos
+    method = "pearson") #calcular correlações de Pearson
+
+```
+
+## Coeficiente de Determinação (*R^2^*)
+
+O **coeficiente de determinação**, representado como *R^2^*, é uma medida estatística que indica a proporção da variação total de uma variável dependente que é explicada pelo modelo de regressão. Em termos simples, o *R^2^* mostra o quão bem os valores previstos pelo modelo se ajustam aos dados reais. Ele varia de 0 a 1, onde:
+
+-   *R^2^*=0 significa que o modelo não explica nenhuma variação nos dados.
+
+-   *R^2^*=1 indica que o modelo explica toda a variação dos dados.
+
+Por exemplo, um *R*2 = 0,80 indica que 80% da variação da variável dependente é explicada pelo modelo, enquanto os 20% restantes são explicados por outros fatores não incluídos no modelo.
+
+Vale ressaltar que um *R^2^* mais alto nem sempre significa que o modelo é melhor, pois modelos muito complexos podem ajustar-se aos dados de forma excessiva (*overfitting*).
+
+```{r}
+
+# R2 é igual ao coeficiente de correlação ao quadrado
+0.24 * 0.24 
+
+# Outra forma de se elevar ao quadrado
+.24^2 
+
+# Para interpretar o R2 em termos percentuais, basta multiplicar o quadrado do coeficiente de correlação por 100
+(.24^2)*100 
+```
+
+### Itens de Abertura (O)
+
+Para calcular as correlações dos itens de abertura do banco `bfi` podemos seguir os passos abaixo
+
+```{r}
+
+names(bfi) #ver quais são as variáveis de abertura (O)
+
+abertura <- bfi[,21:25] #selecionamos somente as variáveis de abertura
+names(abertura) #verificando se o objeto "abertura" criado está apenas com variáveis de abertura
+
+options(scipen = 9999) #desligar a notação científica
+
+#calcular as correlações de Pearson, com intervalo de confiança
+ab.correl <- corr.test(abertura, #banco de dados
+                       use = "pairwise", #tratamento de missing
+                       method = "pearson") #método de correlação
+
+ab.r <- ab.correl$r #matriz de correlações calculada
+
+ab.n <- ab.correl$n #observações por pares de itens utilizadas para calcular as correlações
+
+ab.ci <- round(ab.correl$ci,3) #intervalo de confiança com arrendondamento para 3 decimais
+
+cor.plot(abertura, digits = 2, cex = 1) #correlograma de mapa de calor
+
+pairs.panels(x = abertura, method = "pearson") #correlograma
+
+```
+
+### Demais fatores do banco `bfi`
+
+Usando a mesma estratégia adotada para analisar as correlações dos itens de Abertura, estime as correlações de Pearson dos itens dos demais fatores:
+
+-   Itens de Conscienciosidade (itens C)
+
+-   Itens de Extroversão (itens E)
+
+-   Itens de Amabilidade (itens A)
+
+-   Itens de Neuroticismo (itens N)
+
+------------------------------------------------------------------------
+
+# 26 de setembro
+
+Nessa aula, aprendemos algumas técnicas para explorar os dados. Vamos usar o pacote **`psych`** (<https://cran.r-project.org/web/packages/psych/index.html>) para isso.
+
+## Instalando e carregando o psych
+
+```{r}
+
+#instalar o pacote psych
+#install.packages("psych")
+
+#carregar o pacote psych
+library(psych)
+```
+
+## Abrir o banco de dados `bfi`
+
+O pacote psych vem com alguns bancos de dados que podem ser usados para treinarmos algumas habilidades de análise. Vamos usar o banco de dados **`bfi`** (Big Five Inventory).
+
+```{r}
+
+#abrir o banco
+data(bfi)
+
+#visualizar o cabeçalho do data frame
+head(bfi)
+```
+
+## Estrutura do banco de dados
+
+```{r}
+#visualizar a estrutura do data frame
+str(bfi)
+```
+
+```{r}
+#nomes das colunas
+names(bfi)
+```
+
+## Estatísticas Descritivas
+
+```{r}
+summary(object = bfi)
+```
+
+```{r}
+
+psych::describe(x = bfi)
+```
+
+```{r}
+psych::describe(x = bfi, quant = c(.1, .2, .3, .4, .5, .6, .7, .8, .9))
+```
+
+```{r}
+psych::describeBy(x = bfi, group = "gender", digits = 2)
+```
+
+```{r}
+
+table(bfi$gender)
+```
+
+## Selecionando apenas os itens de personalidade no banco `bfi`
+
+```{r}
+
+# selecionar variáveis
+# selecionando colunas 1 a 25 e todas as linhas
+# as linhas vêm antes da "," e as colunas depois da ","
+bfi[,1:25]
+
+# selecionar linhas
+# selecionando as linhas 1 a 10 e as colunas 1 a 5
+bfi[1:10, 1:5]
+```
+
+```{r}
+
+#selecionando somente os itens de personalidade, que são os 25 primeiros do banco bfi
+
+dados <- bfi[,1:25]
+```
+
+```{r}
+
+psych::multi.hist(x = dados,
+                  ncol = 5, nrow = 5,
+                  density = TRUE,
+                  bcol = "darkblue", dcol = "red",
+                  global = TRUE)
+
+```
+
+```{r}
+boxplot(dados, border = "darkred")
+```
+
+## Correlações
+
+```{r}
+
+psych::cor.plot(dados)
+
+```
+
+------------------------------------------------------------------------
+
+# 12 de setembro
+
+Nessa aula, exploramos o conceito de objetos e tipos de dados no `R`, que são fundamentais para trabalhar com esta linguagem. No `R`, tudo é um objeto, desde números simples até estruturas complexas como data frames. Buscamos entender como criar e manipular esses objetos, e também discutimos os principais tipos de dados, como numéricos, caracteres, lógicos e fatores. Compreender esses conceitos permitirá que você armazene e manipule dados em seus projetos de pesquisa.
 
 ## Objetos
 
@@ -53,14 +290,14 @@ exemplo.de.nome <- "exemplo"
 exemplo_de_nome <- "exemplo"
 exemploNome <- "exemplo"
 nomeExemplo <- "exemplo"
-
+nome999 <- "Exemplo"
 ```
 
 ```{r eval=FALSE}
-#como NÃO nomear objetos:
-99nome <- "valor"
-TRUE <- "valor"
-if <- "valor"
+# como NÃO nomear objetos:
+# 99nome <- "valor"
+# TRUE <- "valor"
+# if <- "valor"
 ```
 
 Aqui estão algumas dicas para nomear objetos no R de forma eficiente e clara:
@@ -107,7 +344,7 @@ Sequências de texto (*strings*).
 
 ```{r}
 
-# Criando um objeto numérico:
+# Criando um objeto string (caractere):
 meu.texto <- "texto vem aqui entre aspas"
 meuNome <- "alexandre"
 outro_texto <- "outro texto"
@@ -143,12 +380,13 @@ y <- 10
 # Comparação que retorna um valor booleano
 x == y  #FALSE
 x < y #TRUE
-y > x #FALSE
+y > x #TRUE
+y != x #TRUE
 ```
 
 #### Fator
 
-Representa variáveis categóricas com níveis. Exemplo: `sexo` com níveis `"masculino"` e `"feminino"`.
+Representa variáveis categóricas com níveis. Exemplo: `sexo` com categorias `"masculino"` e `"feminino"`.
 
 ```{r}
 # Criando um vetor com categorias
@@ -214,7 +452,7 @@ df <-
   nome = c("Alice", "Bob", "Carol"),
   idade = c(25, 30, 22),
   sexo = factor(c("feminino", "masculino", "feminino"))
-)
+  )
 
 ```
 
@@ -268,7 +506,6 @@ Acessando elementos da minha lista, usando o `$`:
 minha_lista$nome
 minha_lista$numeros
 minha_lista$matriz
-
 ```
 
 #### Faça você mesmo: explorando data frames
@@ -293,11 +530,41 @@ O objetivo é coletar dados diretamente de seus colegas de classe para criar e m
 
 ```{r}
 # exemplo
-nomes <- c("Spearman", "Revelle", "Pasquali", "Pearson", "Cattell")
+nomes <- c("Spearman", "Revelle",
+           "Pasquali", "Pearson",
+           "Cattell")
 idades <- c(24, 50, 34, 78, 50)
 anos_de_estudo <- c(18, 45, 30, 72, 45)
 
 #continue para gênero, nível de amor e expectativas...
+```
+
+```{r}
+
+nomes <- c("Victória F.", "Fernanda",
+           "Rebeca", "Victória A.",
+           "Ana Carolina", "Antônio",
+           "Luciana D.", "Janete")
+
+idades <- c(23, 27,
+            25, 19,
+            54, 54,
+            30, 54)
+
+sexo <- c("F", "F",
+          "F", "F",
+          "F", "M",
+          "F", "F")
+
+amoR <- c(1, 2,
+          4, 4,
+          3, 5,
+          1, 2)
+
+expectativa <- c(3, 5,
+                 5, 4,
+                 5, 4,
+                 5, 5)
 ```
 
 3.  Crie um data frame juntando as diferentes colunas
@@ -317,12 +584,27 @@ print(df)
 
 ```
 
+```{r}
+
+df <- data.frame(nomes, idades,
+                 sexo, amoR,
+                 expectativa)
+
+head(df)
+```
+
 4.  Calcule as médias de idade, nível de amor e expectativas usando a função `mean()`
 
 ```{r}
 #exemplo
 media_idade <- mean(df$idades)
 print(media_idade)
+
+media_amoR <- mean(df$amoR)
+media_amoR
+
+media_expectativa <- mean(df$expectativa)
+media_expectativa
 ```
 
 5.  Conte a frequência de cada valor de nível de amor e de expectativa
@@ -336,6 +618,7 @@ tabela_idade
 5.  Faça um gráfico de barras azuis para nível de amor e outro para expectativa
 
 ```{r}
+
 #exemplo
 barplot(height = tabela_idade, #table() conta a frequência de um valor
         main = "Gráfico de barras das idades do grupo", #título do gráfico
@@ -345,10 +628,10 @@ barplot(height = tabela_idade, #table() conta a frequência de um valor
         ) 
 
 
-barplot(height = table(df$anos_de_estudo), #table() conta a frequência de um valor
+barplot(height = table(df$sexo), #table() conta a frequência de um valor
         main = "Gráfico de barras dos anos de estudo do grupo", #título do gráfico
         col = "green", #cor das barras
-        xlab = "Anos de estudo", #título do eixo x
+        xlab = "Sexo", #título do eixo x
         ylab = "Alunos (n)", #título do eixo y
         ) 
 
@@ -358,10 +641,10 @@ barplot(height = table(df$anos_de_estudo), #table() conta a frequência de um va
 
 ```{r}
 #exemplo
-plot(x = df$idades, #variável 1
-     y = df$anos_de_estudo, #variável 2
-     xlab = "Idade", #título do eixo x
-     ylab = "Anos de Estudo", #título do eixo y
+plot(x = df$amoR, #variável 1
+     y = df$expectativa, #variável 2
+     xlab = "AmoR pelo R", #título do eixo x
+     ylab = "Expectativa de ser uma psicometrista", #título do eixo y
      col="red",#cor dos símbolos
      pch = 20, #formato dos símbolos 
      cex = 3) #tamanho dos símbolos
