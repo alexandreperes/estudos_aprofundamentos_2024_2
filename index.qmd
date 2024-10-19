@@ -25,9 +25,11 @@ O documento está estruturado em formato de blog, organizado cronologicamente de
 
 ------------------------------------------------------------------------
 
-# 17 de outubro
+# 17 de outubro de 2024
 
-Na aula de hoje, faremos uma revisão do que estudamos até o momento. Você deverá seguir os seguintes passos e responder as seguintes perguntas.
+Na aula de hoje, fizemos uma revisão do que estudamos até o momento por meio da análise de um banco de dados com respostas ao instrumento [Ten-Item Personality Inventory (TIPI)](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1202953/full). Esse banco contém respostas de estudantes de diferentes turmas do professor.
+
+## Atividade
 
 1.  Abra o banco de dados `Ten-Item Personality Inventory-(TIPI) (respostas).xlsx` no seu projeto no R. O banco está disponível em <https://docs.google.com/spreadsheets/d/1PI1oWW-PUHb9hRSlv9rAMyAsEmyqNRrL/edit?usp=sharing&ouid=118205451649792182527&rtpof=true&sd=true>
 
@@ -49,17 +51,17 @@ Na aula de hoje, faremos uma revisão do que estudamos até o momento. Você dev
 
 10. Considerando a teoria do Big Five, avalie a qualidade do instrumento `Ten-Item Personality Inventory-(TIPI)`. Ele parece ser bom para avaliar os cinco fatores? As correlações entre as variáveis se comportaram conforme esperado teoricamente?
 
-11. Sobrou tempo? Aproveite para melhorar seu portfólio. Não deixe nenhuma atividade para trás, nenhuma análise sem explicação e nenhum código sem comentários.
+11. Suas respostas devem ser em formato de texto corrido e mais detalhadas o possível. Lembre que o objetivo é que o portfólio sirva de guia para você no futuro. Não deixe nenhuma atividade para trás, nenhuma análise sem explicação e nenhum código sem comentários.
 
 ------------------------------------------------------------------------
 
-# 03 de outubro
+# 03 de outubro de 2024
 
 Nessa aula estudamos correlações, usando o banco de dados `bfi` disponível no pacote **`psych`**.
 
 ## Carregando o psych
 
-O pacote psych já foi instalado em [26 de setembro].
+O pacote psych já foi instalado em [26 de setembro de 2024].
 
 ```{r}
 library(psych)
@@ -153,7 +155,7 @@ Usando a mesma estratégia adotada para analisar as correlações dos itens de A
 
 ------------------------------------------------------------------------
 
-# 26 de setembro
+# 26 de setembro de 2024
 
 Nessa aula, aprendemos algumas técnicas para explorar os dados. Vamos usar o pacote **`psych`** (<https://cran.r-project.org/web/packages/psych/index.html>) para isso.
 
