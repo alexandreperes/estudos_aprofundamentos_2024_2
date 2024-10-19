@@ -113,7 +113,7 @@ Vale ressaltar que um *R^2^* mais alto nem sempre significa que o modelo é melh
 
 ### Itens de Abertura (O)
 
-Para calcular as correlações dos itens de abertura do banco `bfi` podemos seguir os passos abaixo
+Para calcular as correlações dos itens de abertura do banco `bfi` podemos seguir os passos abaixo:
 
 ```{r}
 
@@ -135,10 +135,23 @@ ab.n <- ab.correl$n #observações por pares de itens utilizadas para calcular a
 
 ab.ci <- round(ab.correl$ci,3) #intervalo de confiança com arrendondamento para 3 decimais
 
+
+```
+
+#### Correlogramas
+
+Na última aula vimos um tipo de correlograma chamado mapa de calor. Abaixo, além de um mapa de calor, também podemos gerar um painel com informações sobre as correlações entre os pares de variáveis. Na prática, é uma forma alternativa de representar a matriz de correlações.
+
+##### Mapa de Calor
+
+```{r}
 cor.plot(abertura, digits = 2, cex = 1) #correlograma de mapa de calor
+```
 
+##### Painéis de Pares de Variáveis
+
+```{r}
 pairs.panels(x = abertura, method = "pearson") #correlograma
-
 ```
 
 ### Demais fatores do banco `bfi`
@@ -221,9 +234,7 @@ table(bfi$gender)
 
 ## Selecionando apenas os itens de personalidade no banco `bfi`
 
-```{r}
-
-# selecionar variáveis
+```{# selecionar variáveis}
 # selecionando colunas 1 a 25 e todas as linhas
 # as linhas vêm antes da "," e as colunas depois da ","
 bfi[,1:25]
@@ -240,6 +251,10 @@ bfi[1:10, 1:5]
 dados <- bfi[,1:25]
 ```
 
+## Histogramas
+
+A função a seguir do pacote `psych` permite gerar em um mesmo gráfico histogramas para todas as variáveis do banco.
+
 ```{r}
 
 psych::multi.hist(x = dados,
@@ -250,11 +265,17 @@ psych::multi.hist(x = dados,
 
 ```
 
+## Boxplots
+
+Também é possível gerar histogramas para todas as variáveis de uma vez. A função a seguir faz parte do pacote `graphics`, que já vem instalado junto com o `R`, ou seja, não é necessário instalá-lo ou carregá-lo para utilizá-lo.
+
 ```{r}
 boxplot(dados, border = "darkred")
 ```
 
-## Correlações
+## Correlograma
+
+Um correlograma é uma representação gráfica utilizada para mostrar as correlações entre observações em uma série temporal ou entre variáveis em um conjunto de dados. O pacote `psych` possui algumas opções de correlogramas, como o mapa de calor e os painéis de pares de variáveis. Há outras opções visualmente mais atraentes no R, mas podemos deixar para ver isso em outra ocasião. Se estiver curioso, esse site apresenta uma galeria de opções de gráficos que podemos fazer no R usando diversos pacotes: <https://r-graph-gallery.com/>.
 
 ```{r}
 
@@ -752,11 +773,11 @@ Ao final de cada aula, posso gerar uma página `HTML` do meu portfólio clicando
 
 # Alexandre Peres
 
-![](images/Alexandre%20Peres.png){fig-align="left"}
-
-**Alexandre Peres** é professor da Universidade Federal do Mato Grosso do Sul (UFMS), no Programa de Pós-Graduação em Psicologia na Faculdade de Ciências Humanas (FACH), em Campo Grande, desde 2018. Coordena o Laboratório de Psicometria, Avaliação Psicológica e Educacional (LabPAPE). Possui mestrado e doutorado em Psicologia Social, do Trabalho e das Organizações pela Universidade de Brasília (UnB). Foi pesquisador do Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP, entre 2008 e 2018. Seus interesses de pesquisa em psicologia estão relacionados especialmente à psicologia da personalidade e à psicometria. Interessa-se também por testagem educacional em larga-escala e por avaliação de programas e políticas educacionais.
+**Alexandre Peres** é professor da Universidade Federal de Mato Grosso do Sul (UFMS), no Programa de Pós-Graduação em Psicologia na Faculdade de Ciências Humanas (FACH), em Campo Grande, desde 2018. Coordena o Laboratório de Psicometria, Avaliação Psicológica e Educacional (LabPAPE). É psicólogo graduado pela Universidade Federal de Uberlândia (UFU) e possui mestrado e doutorado em Psicologia Social, do Trabalho e das Organizações pela Universidade de Brasília (UnB). Foi pesquisador do Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP) entre 2008 e 2018, e psicólogo do Ministério do Desenvolvimento Social entre 2006 e 2008. Seus interesses de pesquisa em psicologia estão relacionados especialmente à psicologia da personalidade e à psicometria. Interessa-se também por testagem educacional em larga-escala e por avaliação de programas e políticas educacionais.
 
 **alexandre.peres\@ufms.br**
+
+![](images/clipboard-3666764004.png){fig-align="center" width="262"}
 
 ![](images/clipboard-316312062.png){fig-align="center"}
 
