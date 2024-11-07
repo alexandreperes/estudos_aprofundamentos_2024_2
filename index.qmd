@@ -19,13 +19,359 @@ editor: visual
 
 # Como utilizar este documento
 
-Este documento serve como um portfólio que registra as atividades realizadas em sala de aula na disciplina Estudos e Aprofundamentos II do Mestrado em Psicologia do PPG Psicologia da UFMS, ofertada no segundo semestre de 2024. Alunos da disciplina podem utilizá-lo como um guia para elaborar seus próprios portfólios, além de acessar recursos úteis para o desenvolvimento de habilidades no R.
+Este documento serve como um portfólio que registra as atividades realizadas em sala de aula na disciplina Estudos e Aprofundamentos II do Mestrado em Psicologia do PPG Psicologia da UFMS, ofertada no segundo semestre. Alunos da disciplina podem utilizá-lo como um guia para elaborar seus próprios portfólios, além de acessar recursos úteis para o desenvolvimento de habilidades no R.
 
 O documento está estruturado em formato de blog, organizado cronologicamente de forma decrescente. Cada entrada de data inclui subtítulos que identificam as atividades realizadas naquele dia. Para facilitar a navegação, utilize o menu disponível. O professor redigiu os registros em primeira pessoa, simulando a perspectiva de um estudante da disciplina que está documentando suas experiências em um diário. Este documento será atualizado semanalmente pelo professor.
 
 ------------------------------------------------------------------------
 
-# 17 de outubro de 2024
+# 07 de outubro
+## Teoria Clássica dos Testes (TCT)
+Na aula de hoje, estudamos a Teoria Clássica dos Testes (TCT). Para isso, utilizamos um banco de dados com itens dicotômicos.
+
+A TCT é uma abordagem psicométrica fundamental que busca entender e mensurar o desempenho de indivíduos em testes psicológicos e educacionais. A TCT baseia-se em um modelo linear em que o `escore observado (T)` é a soma do `escore verdadeiro (V)` e do `erro de medida (E)`, expresso como `T = V + E`. O escore verdadeiro representa a magnitude real do traço que se deseja medir, enquanto o erro é a variabilidade aleatória que afeta a consistência dos resultados. A TCT foca na confiabilidade, que indica a precisão de um teste, e na validade, que avalia se o teste mede de fato o que se propõe. O escore total em um teste é a soma das respostas corretas, amplamente utilizado para inferir habilidades ou características dos respondentes.
+
+Algumas referências sobre a TCT:
+
+- [Pasquali (2009)](https://www.scielo.br/j/reeusp/a/Bbp7hnp8TNmBCWhc7vjbXgm/)
+
+- [Primi (2010)](https://pepsic.bvsalud.org/pdf/avp/v11n2/v11n2a15.pdf)
+
+- [Sartes e Souza-Formigoni (2013)](https://www.scielo.br/j/prc/a/PfzhXqpV4vzPYgvf75PVwcL/?format=pdf&lang=pt)
+
+
+## Pacotes para a Aula
+
+Pacotes que usamos na aula:
+```{r}
+#install.packages("psychTools")
+#install.packages("psych")
+#install.packages("CTT")
+```
+
+Uma vez que você tenha instalado os pacotes, você pode desabilitar a função `install.packages` para que o `R` não fique instalando os pacotes novamente toda vez que você rodar o *chunk* anterior. Para desabilitar a função, use o símbolo `#` antes dela, como está no *chunk*. Use o `#` em cada linha, no caso do *chunk* anterior.
+
+## TCT com Itens Dicotômicos
+
+Itens dicotômicos são questões ou elementos de um teste (instrumento de mensuração) em que as respostas possíveis são binárias, ou seja, têm apenas duas opções. Normalmente, essas opções são representadas por valores como `1` (e.g., acerto, sim, verdadeiro) e `0` (e.g., erro, não, falso). Na psicometria, itens dicotômicos são frequentemente usados em testes de habilidade, conhecimento ou outros tipos de avaliações em que se deseja medir a presença ou ausência de uma característica específica. A análise desses itens envolve métodos para avaliar a dificuldade (proporção de acertos) e a discriminação (capacidade do item de diferenciar entre indivíduos com diferentes níveis de habilidade ou traço).
+
+### Banco de Dados
+O banco de dados `ability` do pacote [`psychTools`](https://cran.r-project.org/web/packages/psychTools/psychTools.pdf) é um conjunto de dados dicotômicos que contém respostas de indivíduos a um teste de habilidades. Cada linha representa um respondente e cada coluna, um item do teste. Os dados são codificados de forma binária, onde 1 indica uma resposta correta e 0 indica uma resposta incorreta. Lista dos itens no banco:
+
+- reason.4: Questões básicas de raciocínio.
+
+- reason.16: Questão básica de raciocínio.
+
+- reason.17: Questão básica de raciocínio.
+
+- reason.19: Questão básica de raciocínio.
+
+- letter.7: Na seguinte série alfanumérica, qual é a próxima letra?
+
+- letter.33: Na seguinte série alfanumérica, qual é a próxima letra?
+
+- letter.34: Na seguinte série alfanumérica, qual é a próxima letra?
+
+- letter.58: Na seguinte série alfanumérica, qual é a próxima letra?
+
+- matrix.45: Tarefa de raciocínio matricial.
+
+- matrix.46: Tarefa de raciocínio matricial.
+
+- matrix.47: Tarefa de raciocínio matricial.
+
+- matrix.55: Tarefa de raciocínio matricial.
+
+- rotate.3: Rotação espacial do tipo 1.2.
+
+- rotate.4: Rotação espacial do tipo 1.2.
+
+- rotate.6: Rotação espacial do tipo 1.1.
+
+- rotate.8: Rotação espacial do tipo 2.3.
+
+
+
+Carregando o banco de dados `ability` diretamente do pacote `psychTools`:
+```{r}
+
+dados <- psychTools::ability #criar um objeto chamado dados com o banco em formato de data.frame
+
+```
+
+
+Verificando os nomes no banco:
+```{r}
+names(dados)
+```
+Por que será que não deu certo o comando `names()` no *chunk* anterior? Verificando a classe e a estrutura do banco:
+```{r}
+class(dados) #verificar o tipo de objeto criado
+str(dados)
+```
+
+
+Vimos que o banco está em formato de matriz. Para verificar os nomes em uma matriz, não usamos o comando `names()`, mas sim o `colnames()`.
+
+
+A seguir mudamos a classe do objeto dados de uma matriz para um data.frame e podemos usar o `names()` para verificar os nomes das colunas:
+```{r}
+dados <- as.data.frame(dados) #transformar o objeto de matriz para data.frame
+names(dados)
+```
+## Estatísticas Descritivas dos Itens
+
+Usamos o pacote `psych` para calcular a média, desvio-padrão e outras estatísticas descritivas dos itens:
+
+```{r}
+psych::describe(dados)
+```
+### Interpretando
+
+Responda às seguintes questões:
+
+- Quantas pessoas, em média, responderam a cada item?
+
+- Qual os valores máximo e mínimo observado para as variáveis?
+
+- Qual o item mais difícil de todos? Explique como chegou à sua conclusão.
+
+- Qual tipo de item é o mais fácil, reason, letter, matrix ou rotate? Explique como chegou à sua conclusão. 
+
+
+## Escore Total ou Observado
+O escore total é a soma das respostas dos testandos, que nos itens dicotômicos estão codificadas como `0` e `1`.
+
+```{r}
+#criar um objeto com os escores
+escores <- dados 
+
+#soma as respostas, removendo as céluas NA
+escores$escore_total <- rowSums(dados, na.rm = TRUE)
+
+#histograma para ver a distribuição dos escores totais
+hist(escores$escore_total)
+
+#descritiva dos escores totais
+psych::describe(escores$escore_total, quant = c(.25, .75))
+```
+### Interpretando
+Descreva a distribuição do escore total.
+
+## Parâmetros da TCT
+Para calcular os parâmetros da TCT para os itens, usamos o pacote `CTT`, que é a sigla em inglês para a TCT (Classical Test Theory). Com apenas um comando, conseguimos calcular a dificuldade e a discriminação dos itens, bem como a fidedignidade da escala.
+
+```{r}
+library(CTT) #carregar o pacote
+tct <- CTT::itemAnalysis(dados) #calcular os parâmetros e criar o objeto tct
+names(tct)
+
+```
+
+Criamos um objeto chamado `tct` a partir da função `CTT::itemAnalysis(dados)`, que calculou os parâmetros psicométricos dos itens a partir da TCT e armazenou os resultados nesse objeto. Em seguida, usamos o comando `names(tct)` para listar os nomes dos componentes presentes no objeto `tct`:
+
+- `nItem`: número de itens no teste.
+
+- `nPerson`: número de respondentes (pessoas) no teste.
+
+- `alpha`: valor do alfa de Cronbach, que indica a confiabilidade do teste.
+
+- `scaleMean`: média dos escores totais dos respondentes.
+
+- `scaleSD`: desvio-padrão dos escores totais.
+
+- `itemReport`: um data.frame com estatísticas detalhadas sobre cada item, como dificuldade e discriminação.
+
+
+Então, criamos um outro objeto chamado `parametros` com os parâmetros da TCT do teste:
+```{r}
+parametros <- tct$itemReport #pegar os parâmetros dos itens dentro do objeto tct
+names(parametros)
+```
+Extraímos os parâmetros dos itens do objeto `tct` e os armazenamos no objeto `parametros`. Em seguida, ao executar `names(itemReport)`, visualizamos os nomes das colunas do `data.frame` `itemReport`, que representam diferentes estatísticas dos itens:
+
+- `itemName`: Nome ou outro identificador do item.
+
+- `itemMean`: Dificuldade do item, ou seja, a média do item, que indica a proporção de acertos (ou respostas corretas) para cada item.
+
+- `pBis`: Correlação ponto-bisserial, que mede a discriminação de cada item em relação ao escore total.
+
+- `bis`: Correlação bisserial, uma medida alternativa de discriminação do item.
+
+- `alphaIfDeleted`: Valor do alfa de Cronbach se o item fosse removido, indicando o impacto da remoção do item na confiabilidade do teste.
+
+Essas informações são essenciais para avaliar a qualidade psicométrica de cada item no teste.
+
+### Dificuldade (ou Facilidade) dos Itens
+
+Na TCT para itens dicotômicos, a dificuldade de um item é um parâmetro que indica a proporção de respondentes que acertaram o item. Ela é uma medida quantitativa simples que ajuda a avaliar o quão fácil ou difícil um item é para a amostra de testados. Ou seja, a dificuldade é representada pela média das respostas ao item em termos binários (0 para erro e 1 para acerto). Um valor de dificuldade próximo de 1 indica que a maioria dos respondentes acertou o item, ou seja, o item é fácil. Um valor próximo de 0 indica que poucos respondentes acertaram o item, sugerindo que ele é difícil.
+
+
+`Dificuldade = Soma das respostas corretas / número total de respondentes`
+
+
+#### Interpretação
+- **Itens fáceis**: um índice de dificuldade alto (perto de 1), indicando que muitos participantes acertaram.
+- **Itens de dificuldade média**: valores de dificuldade em torno de 0,5, sendo considerados os mais informativos para discriminar entre indivíduos com diferentes níveis do traço medido.
+- **Itens difíceis**: um índice de dificuldade baixo (perto de 0), mostrando que poucos participantes acertaram.
+
+
+Na TCT, o objetivo é ter uma distribuição de dificuldades que permita medir de forma eficaz toda a faixa do traço que se deseja avaliar, garantindo que o teste seja balanceado e discriminativo para diferentes níveis de habilidade.
+
+
+#### Plotando a Dificuldade dos Itens
+```{r}
+# Plotar a dificuldade dos itens
+plot(parametros$itemMean, #variável a ser plotada
+     main = "Dificuldade dos itens", #título do gráfico
+     xlab = "Item",#título do eixo x (horizontal)
+     ylab = "Dificuldade", #título do eixo y (vertical)
+     ylim = c(0:1), #ponto mínimo e máximo do eixo y
+     pch = 19, #formato do símbolo no gráfico (círculo sólido)
+     col = "darkred", #cor do símbolo
+     xaxt = "n", #permitirá configurar os rótulos do eixo x
+     yaxt = "n")  #permitirá configurar os rótulos do eixo y
+
+#Configurar os rótulos do eixo x para que fiquem de 1 em 1, entre 1 e 16
+axis(1, at = 1:16, labels = 1:16)
+
+#Configurar os rótulos do eixo y para que fiquem de 1 em 1, entre 0 e 1
+axis(2, at = seq(0, 1, by = 0.1), labels = seq(0, 1, by = 0.1))
+
+
+# Adicionar rótulos de dados com os nomes dos itens
+text(x = 1:length(parametros$itemMean), #nomear do 1 até o último item em parametros$itemMean
+     y = parametros$itemMean, #variável a receber os rótulos
+     labels = parametros$itemName,  #variável com os nomes dos itens
+     pos = 3, #rótulos acima dos pontos
+     srt = 25, #ângulo do texto dos rótulos
+     cex = 0.6, #tamanho da fonte dos rótulos
+     col = "darkblue") #cor dos rótulos
+```
+
+
+**Curiosidades:**
+
+- Opções para marcadores/símbolos (pch) para usar nos gráficos do R: [https://r-charts.com/base-r/pch-symbols/](https://r-charts.com/base-r/pch-symbols/)
+
+- Opções de cores para usar nos gráficos no R: [https://r-graph-gallery.com/42-colors-names.html](https://r-graph-gallery.com/42-colors-names.html)
+
+#### Interpretando
+Descreva a dificuldade dos itens conforme o nível de dificuldade: quais são os itens fáceis (com até 35% de acertos), os de dificuldade média (entre 35% e 65% de acertos) e os difíceis (acima de 65% de acertos). A dificuldade dos itens parece ter relação com o tipo de tarefa a ser executada ao se responder ao item?
+
+### Discriminação dos Itens
+A discriminação dos itens refere-se à capacidade de um item de diferenciar entre indivíduos com diferentes níveis do traço medido pelo teste (e.g., habilidade, conhecimento etc.). Itens com boa discriminação são mais eficazes em distinguir entre respondentes de alto e baixo desempenho. Na TCT, a discriminação é medida por meio de correlações, como a correlação **ponto-bisserial (pBis)** e a **correlação bisserial (bis)**. Ambas ajudam a entender como cada item de um teste contribui para a diferenciação entre indivíduos com diferentes níveis do traço medido, mas são calculadas de forma diferente e têm interpretações distintas.
+
+#### Correlação Ponto-Bisserial (pBis)
+- **Definição**: A correlação ponto-bisserial é a correlação entre uma variável dicotômica (por exemplo, resposta correta/incorreta a um item de teste) e uma variável contínua (geralmente o escore total no teste).
+
+- **Aplicação**: É usada para avaliar a discriminação de itens em um teste, ou seja, a capacidade de um item de distinguir entre respondentes com alto e baixo desempenho no teste.
+
+- **Interpretação**: Valores mais altos (positivos) indicam que o item é bom em discriminar entre indivíduos com diferentes níveis de habilidade; valores próximos de zero indicam que o item não discrimina bem.
+
+#### Correlação Bisserial (bis)
+- **Definição**: A correlação bisserial é uma estimativa da correlação entre uma variável dicotômica e uma variável contínua subjacente que se assume ser normalmente distribuída. A variável dicotômica é considerada uma transformação de uma variável contínua subjacente.
+
+- **Aplicação**: É usada para avaliar a discriminação de itens, mas assume que a variável contínua subjacente está normalmente distribuída e que a dicotomização resulta de um corte em uma distribuição contínua.
+
+- **Interpretação**: Assim como a pBis, valores altos indicam boa discriminação. No entanto, a bis pode fornecer um valor mais próximo da correlação verdadeira subjacente entre a variável contínua e a variável dicotômica.
+
+#### Diferenças Principais
+- **Assunções**: A pBis não assume uma distribuição normal da variável contínua subjacente, enquanto a bis assume que a variável contínua subjacente é normalmente distribuída.
+
+- **Cálculo**: A pBis é mais simples de calcular e usar em situações em que a normalidade não é garantida, enquanto a bis é mais complexa e baseada na ideia de que a variável dicotômica é uma transformação de uma variável contínua subjacente.
+
+- **Interpretação**: Em muitos casos, os valores da bis são maiores do que os da pBis, pois a bis ajusta para a perda de informação que ocorre ao transformar uma variável contínua em dicotômica.
+
+Ambas as correlações são úteis em contextos diferentes, e a escolha entre pBis e bis depende das características dos dados e dos objetivos da análise.
+
+#### Plotando a Discriminação dos Itens
+```{r}
+
+# Plotar a pBis
+plot(parametros$pBis, # variável a ser plotada
+     main = "Discriminação dos itens: pBis e bis", # título do gráfico
+     xlab = "Item", # título do eixo x (horizontal)
+     ylab = "Correlação", # título do eixo y (vertical)
+     ylim = c(0, 1), # ponto mínimo e máximo do eixo y
+     pch = 19, # tipo de gráfico (linhas verticais)
+     col = "darkred", # cor das linhas de pBis
+     xaxt = "n", # remover temporariamente os rótulos do eixo x
+     yaxt = "n")  # remover temporariamente os rótulos do eixo y
+
+# Configurar os rótulos do eixo x de 1 em 1
+axis(1, at = 1:16, labels = 1:16)
+
+# Configurar os rótulos do eixo y de 0.1 em 0.1
+axis(2, at = seq(0, 1, by = 0.1), labels = seq(0, 1, by = 0.1))
+
+# Adicionar a bis ao gráfico
+points(parametros$bis, pch = 17, col = "darkblue", lwd = 2) # Adiciona pontos com valores de bis
+
+# Adicionar rótulos de dados com os nomes dos itens (bis)
+text(x = 1:length(parametros$bis),
+     y = parametros$bis,
+     labels = parametros$itemName,
+     pos = 3, srt = 0, cex = 0.6, col = "black")
+
+#Adicionar legenda no canto direito inferior
+legend("bottomright",
+       legend = c("pBis", "bis"), 
+       col = c("darkred", "darkblue"), 
+       pch = c(19, 17), 
+       bty = "n") # bty = "n" remove a caixa ao redor da legenda
+
+```
+#### Interpretando
+
+A interpretação conjunta da correlação ponto-bisserial (pBis) e da correlação bisserial (bis) pode fornecer uma visão mais completa sobre a discriminação dos itens em um teste psicométrico. Ambas as correlações medem a associação entre a resposta a um item e o escore total, mas de maneiras ligeiramente diferentes. Aqui estão diretrizes para interpretar essas correlações de forma integrada:
+
+
+- **pBis e bis ambos altos (ex.: ≥ 0.30)**: Indica que o item possui uma excelente discriminação e contribui positivamente para a qualidade do teste. Esses itens são eficazes em distinguir respondentes com diferentes níveis do traço medido e devem ser mantidos. Isso sugere que a variável contínua subjacente (assumida pela bis) e a associação direta com o escore total (medida pela pBis) estão alinhadas, reforçando a validade do item.
+
+
+- **pBis alta (ex.: ≥ 0.30) e bis baixa (ex.: < 0.20):** Pode ocorrer em casos em que a suposição de normalidade da variável subjacente (assumida pela bis) não é atendida. Isso pode sugerir que a pBis é mais confiável nesse caso específico. Nesses casos, a discriminação avaliada pela pBis é válida, mas a interpretação da bis deve ser feita com cautela, questionando a suposição de uma distribuição subjacente.
+
+
+- **pBis e bis ambas baixas (ex.: < 0.20):** Sinal de que o item tem baixa discriminação. Esses itens não contribuem significativamente para a precisão do teste e podem precisar de revisão ou remoção.
+Itens com baixa pBis e bis podem ser ineficazes e devem ser analisados em termos de conteúdo e clareza para melhorar sua discriminação.
+
+
+- **pBis e/ou bis negativas (< 0.00):** Indica que o item está correlacionado de forma inversa com o escore total, o que é problemático. Pode significar que o item é mal formulado ou contém ambiguidades que confundem respondentes de alta habilidade, levando-os a errar mais frequentemente. Itens com correlações negativas devem ser revisados ou removidos, pois podem estar afetando a consistência e validade do teste.
+
+
+Interprete o parâmetro de discriminação dos itens do teste `ability`.
+
+
+### Confiablidade
+
+O **alfa de Cronbach** é uma medida de confiabilidade ou consistência interna de um teste ou instrumento de medição psicométrico. Ele indica o quão bem os itens de um teste estão relacionados entre si e, portanto, a extensão em que eles medem o mesmo construto subjacente. O valor do alfa varia de 0 a 1, e quanto mais próximo de 1, maior é a consistência interna do teste. O alfa de Cronbach é amplamente utilizado em pesquisas nas áreas de psicologia, educação e outras ciências sociais para verificar a confiabilidade de questionários, escalas de avaliação e testes. É uma ferramenta importante para garantir que os itens de um instrumento são consistentes e contribuem para a medição precisa do construto desejado.
+
+#### Interpretação
+- **Alfa ≥ 0.9**: Excelente (alta confiabilidade)
+- **0.8 ≤ Alfa < 0.9**: Bom (boa confiabilidade)
+- **0.7 ≤ Alfa < 0.8**: Aceitável (confiabilidade adequada)
+- **0.6 ≤ Alfa < 0.7**: Questionável (confiabilidade marginal)
+- **0.5 ≤ Alfa < 0.6**: Fraco (confiabilidade baixa)
+- **Alfa < 0.5**: Inaceitável (confiabilidade muito baixa)
+
+#### Limitações
+- **Unidimensionalidade**: O alfa de Cronbach assume que todos os itens do teste medem o mesmo construto unidimensional. Se o teste medir mais de um fator ou dimensão, o alfa pode não ser a melhor medida de consistência interna.
+- **Número de itens**: Um teste com muitos itens tende a ter um alfa mais alto, mesmo que os itens não estejam fortemente relacionados. Portanto, o alfa de Cronbach não é uma medida definitiva de qualidade dos itens.
+
+#### Aplicando
+Avalie a confiabilidade do teste `ability`.
+```{r}
+tct
+```
+Algum item está prejudicando a consistência interna do teste `ability` e poderia ser retirado no cálculo do escore total dos testandos?
+```{r}
+parametros
+
+```
+
+
+# 17 de outubro
 
 Na aula de hoje, fizemos uma revisão do que estudamos até o momento por meio da análise de um banco de dados com respostas ao instrumento [Ten-Item Personality Inventory (TIPI)](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1202953/full). Esse banco contém respostas de estudantes de diferentes turmas do professor.
 
@@ -55,13 +401,13 @@ Na aula de hoje, fizemos uma revisão do que estudamos até o momento por meio d
 
 ------------------------------------------------------------------------
 
-# 03 de outubro de 2024
+# 03 de outubro
 
 Nessa aula estudamos correlações, usando o banco de dados `bfi` disponível no pacote **`psych`**.
 
 ## Carregando o psych
 
-O pacote psych já foi instalado em [26 de setembro de 2024].
+O pacote psych já foi instalado em [26 de setembro].
 
 ```{r}
 library(psych)
@@ -168,7 +514,7 @@ Usando a mesma estratégia adotada para analisar as correlações dos itens de A
 
 ------------------------------------------------------------------------
 
-# 26 de setembro de 2024
+# 26 de setembro
 
 Nessa aula, aprendemos algumas técnicas para explorar os dados. Vamos usar o pacote **`psych`** (<https://cran.r-project.org/web/packages/psych/index.html>) para isso.
 
@@ -675,7 +1021,7 @@ plot(x = df$amoR, #variável 1
 
 7.  Interprete a relação entre nível de amor pelo R e o nível de expectativa por ser um especialista em psicometria.
 
-# 29 de agosto de 2024
+# 29 de agosto
 
 O R possui diversos pacotes. Cada pacote permite realizar um tipo de análise de dados. Por exemplo, vamos abrir um arquivo do Excel. Vamos ver como fazer a seguir.
 
@@ -729,7 +1075,7 @@ exemplo
 
 ------------------------------------------------------------------------
 
-# 22 de agosto de 2024
+# 22 de agosto
 
 ## Organizando meus arquivos
 
