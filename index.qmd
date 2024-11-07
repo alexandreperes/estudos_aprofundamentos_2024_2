@@ -140,6 +140,7 @@ Responda às seguintes questões:
 
 
 ## Escore Total ou Observado
+
 O escore total é a soma das respostas dos testandos, que nos itens dicotômicos estão codificadas como `0` e `1`.
 
 ```{r}
@@ -360,15 +361,18 @@ O **alfa de Cronbach** é uma medida de confiabilidade ou consistência interna 
 - **Número de itens**: Um teste com muitos itens tende a ter um alfa mais alto, mesmo que os itens não estejam fortemente relacionados. Portanto, o alfa de Cronbach não é uma medida definitiva de qualidade dos itens.
 
 #### Aplicando
+
 Avalie a confiabilidade do teste `ability`.
 ```{r}
 tct
 ```
+
 Algum item está prejudicando a consistência interna do teste `ability` e poderia ser retirado no cálculo do escore total dos testandos?
 ```{r}
 parametros
 
 ```
+
 
 
 # 17 de outubro
