@@ -25,100 +25,456 @@ O documento está estruturado em formato de blog, organizado cronologicamente de
 
 ------------------------------------------------------------------------
 
-# 07 de outubro
+# 21 de novembro
+
+Aula com o [Dr. Alexandre Jaloto](http://lattes.cnpq.br/1670568115393078) sobre **Teoria de Resposta ao Item**.
+
+## Pacotes
+
+```{r warning=FALSE, message=FALSE}
+# carregar pacotes que serão usados na aula ----
+library(mirt)
+library(WrightMap)
+```
+
+## Itens Dicotômicos
+
+### Banco de dados
+
+Faça o *download* do arquivo **`banco2PL.csv`** em <https://drive.google.com/file/d/1Eqxb3Pg-qv2m4GnrGqCb6EiKN9oUfgFU/view?usp=sharing>
+
+```{r}
+
+library(readr)
+banco.2pl <- read_delim("dados/banco2PL.csv",
+                        delim = ";",
+                        escape_double = FALSE, trim_ws = TRUE)
+
+
+```
+
+```{r warning=FALSE}
+
+# confirmar que os itens são dicotômicos
+table(banco.2pl$Item_1)
+
+# função apply para toda a tabela (quando usa 2, a função percorre cada coluna)
+apply(banco.2pl, 2, table)
+
+# calibrar os itens no modelo logístico de dois parâmetros
+fit.2pl <- mirt(data = banco.2pl, model = 1, itemtype = '2PL')
+
+# verificar os parâmetros dos itens
+coef(fit.2pl)
+
+# verificar os parâmetros dos itens de forma simplificada
+coef(fit.2pl, simplify = TRUE)
+
+# verificar os parâmetros dos itens (dificuldade em vez do intercepto) de forma simplificada
+coef(fit.2pl, IRTpars = TRUE, simplify = TRUE)
+
+# armazenar os parâmetros em um objeto
+pars <- data.frame(coef(fit.2pl, IRTpars = TRUE, simplify = TRUE)$items)
+pars
+
+# curva de informação do teste
+plot(fit.2pl, type = 'info')
+
+# confiabilidade do teste em função do escore
+plot(fit.2pl, type = 'rxx')
+
+# erro padrão de medida em função do escore
+plot(fit.2pl, type = 'SE')
+
+# informação do teste e erro padrão
+plot(fit.2pl, type = 'infoSE')
+
+# curva de informação de cada item
+plot(fit.2pl, type = 'infotrace')
+
+# curva característica de cada item
+plot(fit.2pl, type = 'trace')
+
+# gráficos de cada item
+
+itemplot(fit.2pl, 1, 'info')
+itemplot(fit.2pl, 1, 'SE')
+itemplot(fit.2pl, 1, 'trace')
+itemplot(fit.2pl, 1, 'infoSE')
+itemplot(fit.2pl, 1, 'infotrace')
+
+# calcular o escore dos sujeitos e o erro de medida
+escore.2pl <- fscores(fit.2pl, full.scores.SE = TRUE)
+head(escore.2pl)
+
+
+```
+
+## Itens Politômicos
+
+### Banco de Dados
+
+Faça o *download* do arquivo **`bancograded.csv`** em <https://drive.google.com/file/d/1EmtFHcfk8rlV23tVmdu6UfD4ZUfrR8_A/view?usp=sharing>
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+banco.graded <- read_delim("dados/bancograded.csv",
+                           delim = ";",
+                           escape_double = FALSE, trim_ws = TRUE)
+```
+
+```{r}
+
+# confirmar as categorias dos itens
+apply(banco.graded, 2, table)
+
+# calibrar os itens no modelo logístico de dois parâmetros
+fit.graded <- mirt(data = banco.graded, model = 1, itemtype = 'graded')
+
+# verificar os parâmetros dos itens
+coef(fit.graded, IRTpars = TRUE, simplify = TRUE)
+
+# armazenar os parâmetros em um objeto
+pars.graded <- data.frame(coef(fit.graded, IRTpars = TRUE, simplify = TRUE)$items)
+pars.graded
+
+# o Item_4 possui parâmetro a muito baixo. Vamos ver como estão seus gráficos mais à frente
+
+# curva de informação do teste
+plot(fit.graded, type = 'info')
+
+# confiabilidade do teste em função do escore
+plot(fit.graded, type = 'rxx')
+
+# erro padrão de medida em função do escore
+plot(fit.graded, type = 'SE')
+
+# informação do teste e erro padrão
+plot(fit.graded, type = 'infoSE')
+
+# curba de informação de cada item
+plot(fit.graded, type = 'infotrace')
+
+# curva característica de cada item
+plot(fit.graded, type = 'trace')
+
+# gráficos de cada item
+itemplot(fit.graded, 1, 'info')
+itemplot(fit.graded, 1, 'SE')
+itemplot(fit.graded, 1, 'trace')
+itemplot(fit.graded, 1, 'infoSE')
+itemplot(fit.graded, 1, 'infotrace')
+
+# calibrar os itens retirando o Item_4
+fit.graded2 <- mirt(data = banco.graded[,-4], model = 1, itemtype = 'graded')
+
+# armazenar os parâmetros em um objeto
+pars.graded2 <- data.frame(coef(fit.graded2, IRTpars = TRUE, simplify = TRUE)$items)
+pars.graded2 # todos os itens possuim discriminação maior do que 0.7
+
+# curvas
+plot(fit.graded2, type = 'info')
+plot(fit.graded2, type = 'rxx')
+plot(fit.graded2, type = 'SE')
+plot(fit.graded2, type = 'infoSE')
+plot(fit.graded2, type = 'infotrace')
+plot(fit.graded2, type = 'trace')
+
+# calcular o escore dos sujeitos e o erro de medida
+escore.graded <- fscores(fit.graded2, full.scores.SE = TRUE)
+head(escore.graded)
+
+
+
+
+```
+
+### Mapa de Itens
+
+```{r}
+# mapa de itens e pessoas ----
+
+# gerar uma tabela com os parâmetros b
+pars.graded2
+tab.b <- data.frame(pars.graded2[,-1])
+tab.b
+
+# gerar gráfico (atenção: só os escores devem ser usados)
+head(escore.graded)
+wrightMap(thetas = escore.graded[,1], thresholds = tab.b)
+
+# alterar as cores
+cores <- matrix(rep(c('darkgreen', 'red', 'darkblue'), 13), byrow = TRUE, ncol = 3)
+
+wrightMap(escore.graded[,1], tab.b,
+          show.thr.lab = FALSE,
+          thr.sym.col.fg = cores)
+
+# alterar os símbolos
+simbolos <- matrix(c(rep(16, 13), rep(17, 13), rep(18, 13)),
+                   byrow = FALSE, ncol = 3)
+
+# às vezes a figura é gerada por cima da anterior e a função abaixo elimina as figuras geradas
+dev.off()
+
+wrightMap(escore.graded[,1],
+          tab.b,
+          show.thr.lab = FALSE,
+          thr.sym.col.fg = cores,
+          thr.sym.col.bg = cores,
+          thr.sym.pch = simbolos,
+          axis.logits = 'Altura',
+          main.title = "Mapa de itens e pessoas",
+          axis.persons = "Respondentes",
+          axis.items = "Itens",
+          thr.sym.cex = 1.5)
+
+
+# gerar mapa na escala da altura ----
+
+# para entender melhor o procedimento, veja a transformação que é feita no Enem em https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/enem_procedimentos_de_analise.pdf
+# veja também explicação mais detalhada de transformações de escala em https://preprints.scielo.org/index.php/scielo/preprint/view/5339
+
+# constantes para (0,1) - média e desvio dos escores no mirt (não é 0 e 1 de fato)
+m <- mean(escore.2pl[,1])
+s <- sd(escore.2pl[,1])
+
+# constantes para escala da altura - média e desvio da altura das pessoas que responderam o questionário
+alt.media <- 1.70
+alt.dp <- 0.10
+
+# parâmetros na escala da altura
+tab.b.altura = round (((tab.b-m)/s) * alt.dp + alt.media, 2)
+escore.altura <- round (((escore.graded[,1]-m)/s) * alt.dp + alt.media, 2)
+
+dev.off()
+wrightMap(escore.altura, tab.b.altura, show.thr.lab = FALSE,
+          thr.sym.col.fg = cores,
+          thr.sym.col.bg = cores,
+          thr.sym.pch = simbolos,
+          axis.logits = 'Altura',
+          main.title = "Mapa de itens e pessoas",
+          axis.persons = "Respondentes",
+          axis.items = "Itens",
+          thr.sym.cex = 1.5)
+
+# também é possível ordenar os itens pelo b1
+tab.b.order <- tab.b[order(tab.b$b1),]
+wrightMap(escore.graded[,1],
+          tab.b.order,
+          show.thr.lab = FALSE,
+          thr.sym.col.fg = cores,
+          thr.sym.col.bg = cores,
+          thr.sym.pch = simbolos,
+          axis.logits = 'Altura',
+          main.title = "Mapa de itens e pessoas",
+          axis.persons = "Respondentes",
+          axis.items = "Itens",
+          thr.sym.cex = 1.5)
+
+tab.b.altura.order <- tab.b.altura[order(tab.b.altura$b1),]
+wrightMap(escore.altura, tab.b.altura.order, show.thr.lab = FALSE,
+          thr.sym.col.fg = cores,
+          thr.sym.col.bg = cores,
+          thr.sym.pch = simbolos,
+          axis.logits = 'Altura',
+          main.title = "Mapa de itens e pessoas",
+          axis.persons = "Respondentes",
+          axis.items = "Itens",
+          thr.sym.cex = 1.5)
+```
+
+### Análise de DIF
+
+```{r}
+# análise de DIF ----
+
+# calibrar usando a função para múltiplos grupos
+fit.2pl.mg <- multipleGroup(data = banco.2pl, model = 1, group = c(rep('1', 250), rep('2', 250)), itemtype = '2PL', invariance = c('free_mean', 'free_var', colnames(banco.2pl)))
+pars.mg <- coef(fit.2pl.mg, IRTpars = TRUE, simplify = TRUE)
+pars.mg
+
+# funções para análise de DIF no mirt (após a aula, estude a ajuda das funções)
+DIF(MGmodel = fit.2pl.mg, which.par = c('a1', 'd'), scheme = 'drop') # Deixar o Item_2 livre melhora o modelo de forma estatisticamente significativa
+RMSD_DIF(pooled_mod = fit.2pl.mg) # o valor do Item_2 é discrepante
+
+# deixar o Item_8 livre também melhora o modelo (AIC reduz), porém não é significativo e o RMSD não ficou tão alto
+
+# conclusão: o ITem_2 possui DIF
+
+# calibrar deixando o Item_2 livre entre os grupos
+fit.2pl.mg2 <- multipleGroup(data = banco.2pl, model = 1, group = c(rep('1', 250), rep('2', 250)), itemtype = '2PL', invariance = c('free_mean', 'free_var', colnames(banco.2pl)[-2]))
+pars.mg2 <- coef(fit.2pl.mg2, IRTpars = TRUE, simplify = TRUE)
+pars.mg2
+
+# análise de DIF (lembrando que o Item_2 está livre)
+DIF(MGmodel = fit.2pl.mg2, which.par = c('a1', 'd'), items2test = c(1, 3:10), scheme = 'drop')
+RMSD_DIF(pooled_mod = fit.2pl.mg2)
+```
+
+# 14 de novembro
+
+Nessa aula aprendemos Análise Fatorial Exploratória (AFE). Explicar o que é AFE e para o quê ela serve.
+
+## Banco de dados
+
+Usamos o banco de dados `Ten-Item Personality Inventory-(TIPI) (respostas).xlsx`. O banco está disponível em <https://docs.google.com/spreadsheets/d/1PI1oWW-PUHb9hRSlv9rAMyAsEmyqNRrL/edit?usp=sharing&ouid=118205451649792182527&rtpof=true&sd=true>
+
+```{r}
+library(readxl)
+dados <- read_excel("dados/Ten-Item Personality Inventory-(TIPI) (respostas).xlsx")
+dados <- dados[,2:11]
+```
+
+## Descritivas
+
+```{r}
+library(psych)
+psych::describe(dados)
+```
+
+## Correlações policóricas
+
+```{r}
+corr <- psych::polychoric(dados)
+corr.table <- as.data.frame(corr$rho)
+
+```
+
+### Corrplot
+
+```{r}
+paleta <- colorRampPalette(c("darkred", "white", "darkblue"))
+
+corrplot::corrplot(corr = as.matrix(corr$rho),
+                   method = "color",
+                   type = "lower",
+                   outline = TRUE,
+                   order = "hclust",
+                   hclust.method = "complete",
+                   col = paleta(6),
+                   tl.col = "black",
+                   tl.cex = .6)
+```
+
+### Network
+
+```{r}
+
+corrr::network_plot(corr$rho,
+                    repel = TRUE,
+                    colours = c("red4", "red3", "red2",
+                                "white",
+                                "blue2", "blue3", "blue4"))
+```
+
+## Análise Fatorial
+
+```{r}
+psych::fa.parallel(x = corr$rho,
+                   fa = "fa",
+                   fm = "minres",
+                   n.obs = nrow(dados))
+```
+
+**`Continua em 28 de novembro...`**
+
+# 07 de novembro
+
 ## Teoria Clássica dos Testes (TCT)
+
 Na aula de hoje, estudamos a Teoria Clássica dos Testes (TCT). Para isso, utilizamos um banco de dados com itens dicotômicos.
 
 A TCT é uma abordagem psicométrica fundamental que busca entender e mensurar o desempenho de indivíduos em testes psicológicos e educacionais. A TCT baseia-se em um modelo linear em que o `escore observado (T)` é a soma do `escore verdadeiro (V)` e do `erro de medida (E)`, expresso como `T = V + E`. O escore verdadeiro representa a magnitude real do traço que se deseja medir, enquanto o erro é a variabilidade aleatória que afeta a consistência dos resultados. A TCT foca na confiabilidade, que indica a precisão de um teste, e na validade, que avalia se o teste mede de fato o que se propõe. O escore total em um teste é a soma das respostas corretas, amplamente utilizado para inferir habilidades ou características dos respondentes.
 
 Algumas referências sobre a TCT:
 
-- [Pasquali (2009)](https://www.scielo.br/j/reeusp/a/Bbp7hnp8TNmBCWhc7vjbXgm/)
+-   [Pasquali (2009)](https://www.scielo.br/j/reeusp/a/Bbp7hnp8TNmBCWhc7vjbXgm/)
 
-- [Primi (2010)](https://pepsic.bvsalud.org/pdf/avp/v11n2/v11n2a15.pdf)
+-   [Primi (2010)](https://pepsic.bvsalud.org/pdf/avp/v11n2/v11n2a15.pdf)
 
-- [Sartes e Souza-Formigoni (2013)](https://www.scielo.br/j/prc/a/PfzhXqpV4vzPYgvf75PVwcL/?format=pdf&lang=pt)
-
+-   [Sartes e Souza-Formigoni (2013)](https://www.scielo.br/j/prc/a/PfzhXqpV4vzPYgvf75PVwcL/?format=pdf&lang=pt)
 
 ## Pacotes para a Aula
 
 Pacotes que usamos na aula:
-```{r}
-#install.packages("psychTools")
-#install.packages("psych")
-#install.packages("CTT")
-```
 
-Uma vez que você tenha instalado os pacotes, você pode desabilitar a função `install.packages` para que o `R` não fique instalando os pacotes novamente toda vez que você rodar o *chunk* anterior. Para desabilitar a função, use o símbolo `#` antes dela, como está no *chunk*. Use o `#` em cada linha, no caso do *chunk* anterior.
+-   install.packages("psychTools")
+
+-   install.packages("psych")
+
+-   install.packages("CTT")
 
 ## TCT com Itens Dicotômicos
 
 Itens dicotômicos são questões ou elementos de um teste (instrumento de mensuração) em que as respostas possíveis são binárias, ou seja, têm apenas duas opções. Normalmente, essas opções são representadas por valores como `1` (e.g., acerto, sim, verdadeiro) e `0` (e.g., erro, não, falso). Na psicometria, itens dicotômicos são frequentemente usados em testes de habilidade, conhecimento ou outros tipos de avaliações em que se deseja medir a presença ou ausência de uma característica específica. A análise desses itens envolve métodos para avaliar a dificuldade (proporção de acertos) e a discriminação (capacidade do item de diferenciar entre indivíduos com diferentes níveis de habilidade ou traço).
 
 ### Banco de Dados
+
 O banco de dados `ability` do pacote [`psychTools`](https://cran.r-project.org/web/packages/psychTools/psychTools.pdf) é um conjunto de dados dicotômicos que contém respostas de indivíduos a um teste de habilidades. Cada linha representa um respondente e cada coluna, um item do teste. Os dados são codificados de forma binária, onde 1 indica uma resposta correta e 0 indica uma resposta incorreta. Lista dos itens no banco:
 
-- reason.4: Questões básicas de raciocínio.
+-   reason.4: Questões básicas de raciocínio.
 
-- reason.16: Questão básica de raciocínio.
+-   reason.16: Questão básica de raciocínio.
 
-- reason.17: Questão básica de raciocínio.
+-   reason.17: Questão básica de raciocínio.
 
-- reason.19: Questão básica de raciocínio.
+-   reason.19: Questão básica de raciocínio.
 
-- letter.7: Na seguinte série alfanumérica, qual é a próxima letra?
+-   letter.7: Na seguinte série alfanumérica, qual é a próxima letra?
 
-- letter.33: Na seguinte série alfanumérica, qual é a próxima letra?
+-   letter.33: Na seguinte série alfanumérica, qual é a próxima letra?
 
-- letter.34: Na seguinte série alfanumérica, qual é a próxima letra?
+-   letter.34: Na seguinte série alfanumérica, qual é a próxima letra?
 
-- letter.58: Na seguinte série alfanumérica, qual é a próxima letra?
+-   letter.58: Na seguinte série alfanumérica, qual é a próxima letra?
 
-- matrix.45: Tarefa de raciocínio matricial.
+-   matrix.45: Tarefa de raciocínio matricial.
 
-- matrix.46: Tarefa de raciocínio matricial.
+-   matrix.46: Tarefa de raciocínio matricial.
 
-- matrix.47: Tarefa de raciocínio matricial.
+-   matrix.47: Tarefa de raciocínio matricial.
 
-- matrix.55: Tarefa de raciocínio matricial.
+-   matrix.55: Tarefa de raciocínio matricial.
 
-- rotate.3: Rotação espacial do tipo 1.2.
+-   rotate.3: Rotação espacial do tipo 1.2.
 
-- rotate.4: Rotação espacial do tipo 1.2.
+-   rotate.4: Rotação espacial do tipo 1.2.
 
-- rotate.6: Rotação espacial do tipo 1.1.
+-   rotate.6: Rotação espacial do tipo 1.1.
 
-- rotate.8: Rotação espacial do tipo 2.3.
-
-
+-   rotate.8: Rotação espacial do tipo 2.3.
 
 Carregando o banco de dados `ability` diretamente do pacote `psychTools`:
+
 ```{r}
 
 dados <- psychTools::ability #criar um objeto chamado dados com o banco em formato de data.frame
 
 ```
 
-
 Verificando os nomes no banco:
+
 ```{r}
 names(dados)
 ```
+
 Por que será que não deu certo o comando `names()` no *chunk* anterior? Verificando a classe e a estrutura do banco:
+
 ```{r}
 class(dados) #verificar o tipo de objeto criado
 str(dados)
 ```
 
-
 Vimos que o banco está em formato de matriz. Para verificar os nomes em uma matriz, não usamos o comando `names()`, mas sim o `colnames()`.
 
-
 A seguir mudamos a classe do objeto dados de uma matriz para um data.frame e podemos usar o `names()` para verificar os nomes das colunas:
+
 ```{r}
 dados <- as.data.frame(dados) #transformar o objeto de matriz para data.frame
 names(dados)
 ```
+
 ## Estatísticas Descritivas dos Itens
 
 Usamos o pacote `psych` para calcular a média, desvio-padrão e outras estatísticas descritivas dos itens:
@@ -126,18 +482,18 @@ Usamos o pacote `psych` para calcular a média, desvio-padrão e outras estatís
 ```{r}
 psych::describe(dados)
 ```
+
 ### Interpretando
 
 Responda às seguintes questões:
 
-- Quantas pessoas, em média, responderam a cada item?
+-   Quantas pessoas, em média, responderam a cada item?
 
-- Qual os valores máximo e mínimo observado para as variáveis?
+-   Qual os valores máximo e mínimo observado para as variáveis?
 
-- Qual o item mais difícil de todos? Explique como chegou à sua conclusão.
+-   Qual o item mais difícil de todos? Explique como chegou à sua conclusão.
 
-- Qual tipo de item é o mais fácil, reason, letter, matrix ou rotate? Explique como chegou à sua conclusão. 
-
+-   Qual tipo de item é o mais fácil, reason, letter, matrix ou rotate? Explique como chegou à sua conclusão.
 
 ## Escore Total ou Observado
 
@@ -156,10 +512,13 @@ hist(escores$escore_total)
 #descritiva dos escores totais
 psych::describe(escores$escore_total, quant = c(.25, .75))
 ```
+
 ### Interpretando
+
 Descreva a distribuição do escore total.
 
 ## Parâmetros da TCT
+
 Para calcular os parâmetros da TCT para os itens, usamos o pacote `CTT`, que é a sigla em inglês para a TCT (Classical Test Theory). Com apenas um comando, conseguimos calcular a dificuldade e a discriminação dos itens, bem como a fidedignidade da escala.
 
 ```{r}
@@ -171,35 +530,36 @@ names(tct)
 
 Criamos um objeto chamado `tct` a partir da função `CTT::itemAnalysis(dados)`, que calculou os parâmetros psicométricos dos itens a partir da TCT e armazenou os resultados nesse objeto. Em seguida, usamos o comando `names(tct)` para listar os nomes dos componentes presentes no objeto `tct`:
 
-- `nItem`: número de itens no teste.
+-   `nItem`: número de itens no teste.
 
-- `nPerson`: número de respondentes (pessoas) no teste.
+-   `nPerson`: número de respondentes (pessoas) no teste.
 
-- `alpha`: valor do alfa de Cronbach, que indica a confiabilidade do teste.
+-   `alpha`: valor do alfa de Cronbach, que indica a confiabilidade do teste.
 
-- `scaleMean`: média dos escores totais dos respondentes.
+-   `scaleMean`: média dos escores totais dos respondentes.
 
-- `scaleSD`: desvio-padrão dos escores totais.
+-   `scaleSD`: desvio-padrão dos escores totais.
 
-- `itemReport`: um data.frame com estatísticas detalhadas sobre cada item, como dificuldade e discriminação.
-
+-   `itemReport`: um data.frame com estatísticas detalhadas sobre cada item, como dificuldade e discriminação.
 
 Então, criamos um outro objeto chamado `parametros` com os parâmetros da TCT do teste:
+
 ```{r}
 parametros <- tct$itemReport #pegar os parâmetros dos itens dentro do objeto tct
 names(parametros)
 ```
+
 Extraímos os parâmetros dos itens do objeto `tct` e os armazenamos no objeto `parametros`. Em seguida, ao executar `names(itemReport)`, visualizamos os nomes das colunas do `data.frame` `itemReport`, que representam diferentes estatísticas dos itens:
 
-- `itemName`: Nome ou outro identificador do item.
+-   `itemName`: Nome ou outro identificador do item.
 
-- `itemMean`: Dificuldade do item, ou seja, a média do item, que indica a proporção de acertos (ou respostas corretas) para cada item.
+-   `itemMean`: Dificuldade do item, ou seja, a média do item, que indica a proporção de acertos (ou respostas corretas) para cada item.
 
-- `pBis`: Correlação ponto-bisserial, que mede a discriminação de cada item em relação ao escore total.
+-   `pBis`: Correlação ponto-bisserial, que mede a discriminação de cada item em relação ao escore total.
 
-- `bis`: Correlação bisserial, uma medida alternativa de discriminação do item.
+-   `bis`: Correlação bisserial, uma medida alternativa de discriminação do item.
 
-- `alphaIfDeleted`: Valor do alfa de Cronbach se o item fosse removido, indicando o impacto da remoção do item na confiabilidade do teste.
+-   `alphaIfDeleted`: Valor do alfa de Cronbach se o item fosse removido, indicando o impacto da remoção do item na confiabilidade do teste.
 
 Essas informações são essenciais para avaliar a qualidade psicométrica de cada item no teste.
 
@@ -207,20 +567,18 @@ Essas informações são essenciais para avaliar a qualidade psicométrica de ca
 
 Na TCT para itens dicotômicos, a dificuldade de um item é um parâmetro que indica a proporção de respondentes que acertaram o item. Ela é uma medida quantitativa simples que ajuda a avaliar o quão fácil ou difícil um item é para a amostra de testados. Ou seja, a dificuldade é representada pela média das respostas ao item em termos binários (0 para erro e 1 para acerto). Um valor de dificuldade próximo de 1 indica que a maioria dos respondentes acertou o item, ou seja, o item é fácil. Um valor próximo de 0 indica que poucos respondentes acertaram o item, sugerindo que ele é difícil.
 
-
-`Dificuldade = Soma das respostas corretas / número total de respondentes`
-
+Dificuldade = Soma das respostas corretas / número total de respondentes
 
 #### Interpretação
-- **Itens fáceis**: um índice de dificuldade alto (perto de 1), indicando que muitos participantes acertaram.
-- **Itens de dificuldade média**: valores de dificuldade em torno de 0,5, sendo considerados os mais informativos para discriminar entre indivíduos com diferentes níveis do traço medido.
-- **Itens difíceis**: um índice de dificuldade baixo (perto de 0), mostrando que poucos participantes acertaram.
 
+-   **Itens fáceis**: um índice de dificuldade alto (perto de 1), indicando que muitos participantes acertaram.
+-   **Itens de dificuldade média**: valores de dificuldade em torno de 0,5, sendo considerados os mais informativos para discriminar entre indivíduos com diferentes níveis do traço medido.
+-   **Itens difíceis**: um índice de dificuldade baixo (perto de 0), mostrando que poucos participantes acertaram.
 
 Na TCT, o objetivo é ter uma distribuição de dificuldades que permita medir de forma eficaz toda a faixa do traço que se deseja avaliar, garantindo que o teste seja balanceado e discriminativo para diferentes níveis de habilidade.
 
-
 #### Plotando a Dificuldade dos Itens
+
 ```{r}
 # Plotar a dificuldade dos itens
 plot(parametros$itemMean, #variável a ser plotada
@@ -250,43 +608,48 @@ text(x = 1:length(parametros$itemMean), #nomear do 1 até o último item em para
      col = "darkblue") #cor dos rótulos
 ```
 
-
 **Curiosidades:**
 
-- Opções para marcadores/símbolos (pch) para usar nos gráficos do R: [https://r-charts.com/base-r/pch-symbols/](https://r-charts.com/base-r/pch-symbols/)
+-   Opções para marcadores/símbolos (pch) para usar nos gráficos do R: <https://r-charts.com/base-r/pch-symbols/>
 
-- Opções de cores para usar nos gráficos no R: [https://r-graph-gallery.com/42-colors-names.html](https://r-graph-gallery.com/42-colors-names.html)
+-   Opções de cores para usar nos gráficos no R: <https://r-graph-gallery.com/42-colors-names.html>
 
 #### Interpretando
+
 Descreva a dificuldade dos itens conforme o nível de dificuldade: quais são os itens fáceis (com até 35% de acertos), os de dificuldade média (entre 35% e 65% de acertos) e os difíceis (acima de 65% de acertos). A dificuldade dos itens parece ter relação com o tipo de tarefa a ser executada ao se responder ao item?
 
 ### Discriminação dos Itens
+
 A discriminação dos itens refere-se à capacidade de um item de diferenciar entre indivíduos com diferentes níveis do traço medido pelo teste (e.g., habilidade, conhecimento etc.). Itens com boa discriminação são mais eficazes em distinguir entre respondentes de alto e baixo desempenho. Na TCT, a discriminação é medida por meio de correlações, como a correlação **ponto-bisserial (pBis)** e a **correlação bisserial (bis)**. Ambas ajudam a entender como cada item de um teste contribui para a diferenciação entre indivíduos com diferentes níveis do traço medido, mas são calculadas de forma diferente e têm interpretações distintas.
 
 #### Correlação Ponto-Bisserial (pBis)
-- **Definição**: A correlação ponto-bisserial é a correlação entre uma variável dicotômica (por exemplo, resposta correta/incorreta a um item de teste) e uma variável contínua (geralmente o escore total no teste).
 
-- **Aplicação**: É usada para avaliar a discriminação de itens em um teste, ou seja, a capacidade de um item de distinguir entre respondentes com alto e baixo desempenho no teste.
+-   **Definição**: A correlação ponto-bisserial é a correlação entre uma variável dicotômica (por exemplo, resposta correta/incorreta a um item de teste) e uma variável contínua (geralmente o escore total no teste).
 
-- **Interpretação**: Valores mais altos (positivos) indicam que o item é bom em discriminar entre indivíduos com diferentes níveis de habilidade; valores próximos de zero indicam que o item não discrimina bem.
+-   **Aplicação**: É usada para avaliar a discriminação de itens em um teste, ou seja, a capacidade de um item de distinguir entre respondentes com alto e baixo desempenho no teste.
+
+-   **Interpretação**: Valores mais altos (positivos) indicam que o item é bom em discriminar entre indivíduos com diferentes níveis de habilidade; valores próximos de zero indicam que o item não discrimina bem.
 
 #### Correlação Bisserial (bis)
-- **Definição**: A correlação bisserial é uma estimativa da correlação entre uma variável dicotômica e uma variável contínua subjacente que se assume ser normalmente distribuída. A variável dicotômica é considerada uma transformação de uma variável contínua subjacente.
 
-- **Aplicação**: É usada para avaliar a discriminação de itens, mas assume que a variável contínua subjacente está normalmente distribuída e que a dicotomização resulta de um corte em uma distribuição contínua.
+-   **Definição**: A correlação bisserial é uma estimativa da correlação entre uma variável dicotômica e uma variável contínua subjacente que se assume ser normalmente distribuída. A variável dicotômica é considerada uma transformação de uma variável contínua subjacente.
 
-- **Interpretação**: Assim como a pBis, valores altos indicam boa discriminação. No entanto, a bis pode fornecer um valor mais próximo da correlação verdadeira subjacente entre a variável contínua e a variável dicotômica.
+-   **Aplicação**: É usada para avaliar a discriminação de itens, mas assume que a variável contínua subjacente está normalmente distribuída e que a dicotomização resulta de um corte em uma distribuição contínua.
+
+-   **Interpretação**: Assim como a pBis, valores altos indicam boa discriminação. No entanto, a bis pode fornecer um valor mais próximo da correlação verdadeira subjacente entre a variável contínua e a variável dicotômica.
 
 #### Diferenças Principais
-- **Assunções**: A pBis não assume uma distribuição normal da variável contínua subjacente, enquanto a bis assume que a variável contínua subjacente é normalmente distribuída.
 
-- **Cálculo**: A pBis é mais simples de calcular e usar em situações em que a normalidade não é garantida, enquanto a bis é mais complexa e baseada na ideia de que a variável dicotômica é uma transformação de uma variável contínua subjacente.
+-   **Assunções**: A pBis não assume uma distribuição normal da variável contínua subjacente, enquanto a bis assume que a variável contínua subjacente é normalmente distribuída.
 
-- **Interpretação**: Em muitos casos, os valores da bis são maiores do que os da pBis, pois a bis ajusta para a perda de informação que ocorre ao transformar uma variável contínua em dicotômica.
+-   **Cálculo**: A pBis é mais simples de calcular e usar em situações em que a normalidade não é garantida, enquanto a bis é mais complexa e baseada na ideia de que a variável dicotômica é uma transformação de uma variável contínua subjacente.
+
+-   **Interpretação**: Em muitos casos, os valores da bis são maiores do que os da pBis, pois a bis ajusta para a perda de informação que ocorre ao transformar uma variável contínua em dicotômica.
 
 Ambas as correlações são úteis em contextos diferentes, e a escolha entre pBis e bis depende das características dos dados e dos objetivos da análise.
 
 #### Plotando a Discriminação dos Itens
+
 ```{r}
 
 # Plotar a pBis
@@ -323,57 +686,53 @@ legend("bottomright",
        bty = "n") # bty = "n" remove a caixa ao redor da legenda
 
 ```
+
 #### Interpretando
 
 A interpretação conjunta da correlação ponto-bisserial (pBis) e da correlação bisserial (bis) pode fornecer uma visão mais completa sobre a discriminação dos itens em um teste psicométrico. Ambas as correlações medem a associação entre a resposta a um item e o escore total, mas de maneiras ligeiramente diferentes. Aqui estão diretrizes para interpretar essas correlações de forma integrada:
 
+-   **pBis e bis ambos altos (ex.: ≥ 0.30)**: Indica que o item possui uma excelente discriminação e contribui positivamente para a qualidade do teste. Esses itens são eficazes em distinguir respondentes com diferentes níveis do traço medido e devem ser mantidos. Isso sugere que a variável contínua subjacente (assumida pela bis) e a associação direta com o escore total (medida pela pBis) estão alinhadas, reforçando a validade do item.
 
-- **pBis e bis ambos altos (ex.: ≥ 0.30)**: Indica que o item possui uma excelente discriminação e contribui positivamente para a qualidade do teste. Esses itens são eficazes em distinguir respondentes com diferentes níveis do traço medido e devem ser mantidos. Isso sugere que a variável contínua subjacente (assumida pela bis) e a associação direta com o escore total (medida pela pBis) estão alinhadas, reforçando a validade do item.
+-   **pBis alta (ex.: ≥ 0.30) e bis baixa (ex.: \< 0.20):** Pode ocorrer em casos em que a suposição de normalidade da variável subjacente (assumida pela bis) não é atendida. Isso pode sugerir que a pBis é mais confiável nesse caso específico. Nesses casos, a discriminação avaliada pela pBis é válida, mas a interpretação da bis deve ser feita com cautela, questionando a suposição de uma distribuição subjacente.
 
+-   **pBis e bis ambas baixas (ex.: \< 0.20):** Sinal de que o item tem baixa discriminação. Esses itens não contribuem significativamente para a precisão do teste e podem precisar de revisão ou remoção. Itens com baixa pBis e bis podem ser ineficazes e devem ser analisados em termos de conteúdo e clareza para melhorar sua discriminação.
 
-- **pBis alta (ex.: ≥ 0.30) e bis baixa (ex.: < 0.20):** Pode ocorrer em casos em que a suposição de normalidade da variável subjacente (assumida pela bis) não é atendida. Isso pode sugerir que a pBis é mais confiável nesse caso específico. Nesses casos, a discriminação avaliada pela pBis é válida, mas a interpretação da bis deve ser feita com cautela, questionando a suposição de uma distribuição subjacente.
-
-
-- **pBis e bis ambas baixas (ex.: < 0.20):** Sinal de que o item tem baixa discriminação. Esses itens não contribuem significativamente para a precisão do teste e podem precisar de revisão ou remoção.
-Itens com baixa pBis e bis podem ser ineficazes e devem ser analisados em termos de conteúdo e clareza para melhorar sua discriminação.
-
-
-- **pBis e/ou bis negativas (< 0.00):** Indica que o item está correlacionado de forma inversa com o escore total, o que é problemático. Pode significar que o item é mal formulado ou contém ambiguidades que confundem respondentes de alta habilidade, levando-os a errar mais frequentemente. Itens com correlações negativas devem ser revisados ou removidos, pois podem estar afetando a consistência e validade do teste.
-
+-   **pBis e/ou bis negativas (\< 0.00):** Indica que o item está correlacionado de forma inversa com o escore total, o que é problemático. Pode significar que o item é mal formulado ou contém ambiguidades que confundem respondentes de alta habilidade, levando-os a errar mais frequentemente. Itens com correlações negativas devem ser revisados ou removidos, pois podem estar afetando a consistência e validade do teste.
 
 Interprete o parâmetro de discriminação dos itens do teste `ability`.
-
 
 ### Confiablidade
 
 O **alfa de Cronbach** é uma medida de confiabilidade ou consistência interna de um teste ou instrumento de medição psicométrico. Ele indica o quão bem os itens de um teste estão relacionados entre si e, portanto, a extensão em que eles medem o mesmo construto subjacente. O valor do alfa varia de 0 a 1, e quanto mais próximo de 1, maior é a consistência interna do teste. O alfa de Cronbach é amplamente utilizado em pesquisas nas áreas de psicologia, educação e outras ciências sociais para verificar a confiabilidade de questionários, escalas de avaliação e testes. É uma ferramenta importante para garantir que os itens de um instrumento são consistentes e contribuem para a medição precisa do construto desejado.
 
 #### Interpretação
-- **Alfa ≥ 0.9**: Excelente (alta confiabilidade)
-- **0.8 ≤ Alfa < 0.9**: Bom (boa confiabilidade)
-- **0.7 ≤ Alfa < 0.8**: Aceitável (confiabilidade adequada)
-- **0.6 ≤ Alfa < 0.7**: Questionável (confiabilidade marginal)
-- **0.5 ≤ Alfa < 0.6**: Fraco (confiabilidade baixa)
-- **Alfa < 0.5**: Inaceitável (confiabilidade muito baixa)
+
+-   **Alfa ≥ 0.9**: Excelente (alta confiabilidade)
+-   **0.8 ≤ Alfa \< 0.9**: Bom (boa confiabilidade)
+-   **0.7 ≤ Alfa \< 0.8**: Aceitável (confiabilidade adequada)
+-   **0.6 ≤ Alfa \< 0.7**: Questionável (confiabilidade marginal)
+-   **0.5 ≤ Alfa \< 0.6**: Fraco (confiabilidade baixa)
+-   **Alfa \< 0.5**: Inaceitável (confiabilidade muito baixa)
 
 #### Limitações
-- **Unidimensionalidade**: O alfa de Cronbach assume que todos os itens do teste medem o mesmo construto unidimensional. Se o teste medir mais de um fator ou dimensão, o alfa pode não ser a melhor medida de consistência interna.
-- **Número de itens**: Um teste com muitos itens tende a ter um alfa mais alto, mesmo que os itens não estejam fortemente relacionados. Portanto, o alfa de Cronbach não é uma medida definitiva de qualidade dos itens.
+
+-   **Unidimensionalidade**: O alfa de Cronbach assume que todos os itens do teste medem o mesmo construto unidimensional. Se o teste medir mais de um fator ou dimensão, o alfa pode não ser a melhor medida de consistência interna.
+-   **Número de itens**: Um teste com muitos itens tende a ter um alfa mais alto, mesmo que os itens não estejam fortemente relacionados. Portanto, o alfa de Cronbach não é uma medida definitiva de qualidade dos itens.
 
 #### Aplicando
 
 Avalie a confiabilidade do teste `ability`.
+
 ```{r}
 tct
 ```
 
 Algum item está prejudicando a consistência interna do teste `ability` e poderia ser retirado no cálculo do escore total dos testandos?
+
 ```{r}
 parametros
 
 ```
-
-
 
 # 17 de outubro
 
@@ -441,11 +800,11 @@ cor(x = bfi$age, #variável 1: idade
 
 O **coeficiente de determinação**, representado como *R^2^*, é uma medida estatística que indica a proporção da variação total de uma variável dependente que é explicada pelo modelo de regressão. Em termos simples, o *R^2^* mostra o quão bem os valores previstos pelo modelo se ajustam aos dados reais. Ele varia de 0 a 1, onde:
 
--   *R^2^*=0 significa que o modelo não explica nenhuma variação nos dados.
+-   `*R^2^*=0` significa que o modelo não explica nenhuma variação nos dados.
 
--   *R^2^*=1 indica que o modelo explica toda a variação dos dados.
+-   `*R^2^*=1` indica que o modelo explica toda a variação dos dados.
 
-Por exemplo, um *R*2 = 0,80 indica que 80% da variação da variável dependente é explicada pelo modelo, enquanto os 20% restantes são explicados por outros fatores não incluídos no modelo.
+Por exemplo, um `*R*2 = 0,80` indica que 80% da variação da variável dependente é explicada pelo modelo, enquanto os 20% restantes são explicados por outros fatores não incluídos no modelo.
 
 Vale ressaltar que um *R^2^* mais alto nem sempre significa que o modelo é melhor, pois modelos muito complexos podem ajustar-se aos dados de forma excessiva (*overfitting*).
 
@@ -527,7 +886,7 @@ Nessa aula, aprendemos algumas técnicas para explorar os dados. Vamos usar o pa
 ```{r}
 
 #instalar o pacote psych
-#install.packages("psych")
+install.packages("psych")
 
 #carregar o pacote psych
 library(psych)
@@ -584,7 +943,7 @@ table(bfi$gender)
 
 ## Selecionando apenas os itens de personalidade no banco `bfi`
 
-```{# selecionar variáveis}
+```{r}
 # selecionando colunas 1 a 25 e todas as linhas
 # as linhas vêm antes da "," e as colunas depois da ","
 bfi[,1:25]
